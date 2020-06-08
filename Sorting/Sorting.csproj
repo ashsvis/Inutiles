@@ -47,6 +47,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ArrayElement.cs" />
+    <Compile Include="ArrayElements.cs" />
     <Compile Include="Element.cs" />
     <Compile Include="Elements.cs" />
     <Compile Include="MainForm.cs">

@@ -8,7 +8,7 @@ namespace Sorting
     public partial class MainForm : Form
     {
         // список рисуемых объектов
-        private Elements elements = new Elements();
+        private ArrayElements elements = new ArrayElements();
 
         public MainForm()
         {
@@ -22,25 +22,27 @@ namespace Sorting
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void MainForm_Load(object sender, System.EventArgs e)
+        private void MainForm_Load(object sender, EventArgs e)
         {
             // запускаем поток для модификации модели
             pkgPainter.RunWorkerAsync();
             // добавим элементы
-            var rand = new Random();
             var location = new System.Drawing.PointF(10, 10);
-            for (var i = 0; i < 20; i++)
+            for (var i = 0; i < 15; i++)
             {
                 var element = CreateArrayElement();
                 element.Location = location;
-                element.Value = rand.Next(-9, 10);
                 elements.Add(element);
-                location.X += element.Size.Width + 10;
+                location.Y += element.Size.Height + 10;
+            }
+            lock (elements)
+            {
+                elements.Reorder();
             }
         }
 
         private static ArrayElement CreateArrayElement() => 
-            new ArrayElement() { Size = new System.Drawing.SizeF(30, 30) };
+            new ArrayElement() { Size = new System.Drawing.SizeF(35, 35) };
 
         /// <summary>
         /// При закрытии главной формы
@@ -61,13 +63,21 @@ namespace Sorting
         private void pkgPainter_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker)sender;
+            var i = 0;
+            elements.DoBubbleIteration(ref i);
             while (!worker.CancellationPending)
             {
-                elements.Update();
+                lock (elements)
+                {
+                    if (elements.Stabilized)
+                        elements.DoBubbleIteration(ref i);
+                    else
+                        elements.Update();
+                }
                 // требование перерисовки формы
                 this.Invalidate();
                 // отдыхаем
-                Thread.Sleep(1000/60);
+                Thread.Sleep(33);
             }
         }
 
@@ -78,7 +88,18 @@ namespace Sorting
         /// <param name="e"></param>
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            elements.DrawAt(e.Graphics);
+            lock (elements)
+            {
+                elements.DrawAt(e.Graphics);
+            }
+        }
+
+        private void btnReorder_Click(object sender, EventArgs e)
+        {
+            lock (elements)
+            {
+                elements.Reorder();
+            }
         }
     }
 }

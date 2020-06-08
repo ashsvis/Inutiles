@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             this.pkgPainter = new System.ComponentModel.BackgroundWorker();
+            this.btnReorder = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pkgPainter
@@ -36,11 +37,22 @@
             this.pkgPainter.WorkerSupportsCancellation = true;
             this.pkgPainter.DoWork += new System.ComponentModel.DoWorkEventHandler(this.pkgPainter_DoWork);
             // 
+            // btnReorder
+            // 
+            this.btnReorder.Location = new System.Drawing.Point(103, 12);
+            this.btnReorder.Name = "btnReorder";
+            this.btnReorder.Size = new System.Drawing.Size(94, 23);
+            this.btnReorder.TabIndex = 0;
+            this.btnReorder.Text = "Перемешать";
+            this.btnReorder.UseVisualStyleBackColor = true;
+            this.btnReorder.Click += new System.EventHandler(this.btnReorder_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(810, 494);
+            this.ClientSize = new System.Drawing.Size(300, 616);
+            this.Controls.Add(this.btnReorder);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "MainForm";
             this.Text = "Сортировка";
@@ -54,6 +66,7 @@
         #endregion
 
         private System.ComponentModel.BackgroundWorker pkgPainter;
+        private System.Windows.Forms.Button btnReorder;
     }
 }
 
