@@ -28,7 +28,7 @@ namespace Sorting
         /// <summary>
         /// Запоминаем время, прошедшее с предыдущего вызова этого метода
         /// </summary>
-        public void Update()
+        public virtual void Update()
         {
             // получаем промежуток
             timeSpan = stopwatch.Elapsed;
@@ -40,7 +40,7 @@ namespace Sorting
         /// Рисование на канве некоторого содержимого
         /// </summary>
         /// <param name="graphics"></param>
-        public void DrawAt(Graphics graphics)
+        public virtual void DrawAt(Graphics graphics)
         {
             // выводим текстовую строку
             graphics.DrawString(this.ToString(), SystemFonts.DefaultFont, Brushes.Black, PointF.Empty);
@@ -56,4 +56,5 @@ namespace Sorting
             return $"{timeSpan}";
         }
     }
+
 }

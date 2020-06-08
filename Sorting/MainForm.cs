@@ -1,4 +1,5 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -25,11 +26,21 @@ namespace Sorting
         {
             // запускаем поток для модификации модели
             pkgPainter.RunWorkerAsync();
-            // добавим единственный элемент
-            elements.Add(new Element());
-            // добавим ещё элемент
-            //elements.Add(new Element());
+            // добавим элементы
+            var rand = new Random();
+            var location = new System.Drawing.PointF(10, 10);
+            for (var i = 0; i < 20; i++)
+            {
+                var element = CreateArrayElement();
+                element.Location = location;
+                element.Value = rand.Next(-9, 10);
+                elements.Add(element);
+                location.X += element.Size.Width + 10;
+            }
         }
+
+        private static ArrayElement CreateArrayElement() => 
+            new ArrayElement() { Size = new System.Drawing.SizeF(30, 30) };
 
         /// <summary>
         /// При закрытии главной формы
