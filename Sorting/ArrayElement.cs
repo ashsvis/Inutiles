@@ -43,7 +43,7 @@ namespace Sorting
             var pt2_3 = GetMiddlePoint(pt2, pt3);
             var pt3_g = GetMiddlePoint(pt3, goalLocation);
             frames.Clear();
-            frames.AddRange(new[] { Location, Location, ptL_1, pt1, pt1_2, pt2, pt2_3, pt3, pt3_g, goalLocation, goalLocation });
+            frames.AddRange(new[] { ptL_1, pt1, pt1_2, pt2, pt2_3, pt3, pt3_g, goalLocation });
 
         }
 

@@ -9,7 +9,8 @@ namespace Sorting
     public partial class MainForm : Form
     {
         // список рисуемых объектов
-        private ArrayElements elements = new ArrayElements();
+        private ArrayElements elements1 = new ArrayElements();
+        private ArrayElements elements2 = new ArrayElements();
 
         public MainForm()
         {
@@ -31,26 +32,39 @@ namespace Sorting
         private void CreateAndReorder()
         {
             var rand = new Random();
-            var a = new int[15];
-            for (var i = 0; i < a.Length; i++)
+            var a1 = new int[15];
+            var a2 = new int[15];
+            for (var i = 0; i < a1.Length; i++)
             {
-                //a[i] = a.Length - i;
-                a[i] = rand.Next(1, 100);
+                var value = rand.Next(1, 100);
+                a1[i] = value;
+                a2[i] = value;
             }
-            elements.Clear();
+            elements1.Clear();
             // добавим элементы
             var location = new System.Drawing.PointF(170, 20);
-            for (var i = 0; i < a.Length; i++)
+            for (var i = 0; i < a1.Length; i++)
             {
                 var element = CreateArrayElement();
                 element.Location = location;
-                element.Value = a[i];
-                elements.Add(element);
+                element.Value = a1[i];
+                elements1.Add(element);
                 location.Y += element.Size.Height + 10;
             }
-            var log = MethodsHolder.BubbleSort(a);
+            elements2.Clear();
+            location = new System.Drawing.PointF(270, 20);
+            for (var i = 0; i < a2.Length; i++)
+            {
+                var element = CreateArrayElement();
+                element.Location = location;
+                element.Value = a2[i];
+                elements2.Add(element);
+                location.Y += element.Size.Height + 10;
+            }
+            var log1 = MethodsHolder.BubbleSort(a1);
+            var log2 = MethodsHolder.BubbleSort(a2);
             // запускаем поток для модификации модели
-            pkgPainter.RunWorkerAsync(log);
+            pkgPainter.RunWorkerAsync(new[] { log1, log2 });
         }
 
         private static ArrayElement CreateArrayElement() => 
@@ -75,19 +89,20 @@ namespace Sorting
         private void pkgPainter_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker)sender;
-            var log = (List<Tuple<int, int>>)e.Argument;
+            var logs = (List<Tuple<int, int>>[])e.Argument;
             while (!worker.CancellationPending)
             {
-                if (elements.Stabilized)
+                if (runned)
                 {
-                    if (runned || stepped)
-                    {
-                        stepped = false;
-                        elements.DoIteration(log);
-                    }
+                    if (elements1.Stabilized)
+                        elements1.DoIteration(logs[0]);
+                    else
+                        elements1.Update();
+                    if (elements2.Stabilized)
+                        elements2.DoIteration(logs[1]);
+                    else
+                        elements2.Update();
                 }
-                else
-                    elements.Update();
                 // требование перерисовки формы
                 this.Invalidate();
                 // отдыхаем
@@ -102,7 +117,8 @@ namespace Sorting
         /// <param name="e"></param>
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            elements.DrawAt(e.Graphics);
+            elements1.DrawAt(e.Graphics);
+            elements2.DrawAt(e.Graphics);
         }
 
         private void btnReorder_Click(object sender, EventArgs e)
@@ -113,13 +129,6 @@ namespace Sorting
                 Application.DoEvents();
             btnReorder.Enabled = true;
             CreateAndReorder();
-        }
-
-        private bool stepped = false;
-
-        private void btnStep_Click(object sender, EventArgs e)
-        {
-            stepped = true;
         }
 
         private bool runned = false;
