@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Threading;
 using System.Windows.Forms;
@@ -24,25 +25,29 @@ namespace Sorting
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
-            // запускаем поток для модификации модели
-            pkgPainter.RunWorkerAsync();
+            var rand = new Random();
+            var a = new int[15];
+            for (var i = 0; i < a.Length; i++)
+            {
+                a[i] = a.Length - i; //rand.Next(1, 100);
+            }
             // добавим элементы
-            var location = new System.Drawing.PointF(10, 10);
-            for (var i = 0; i < 15; i++)
+            var location = new System.Drawing.PointF(100, 50);
+            for (var i = 0; i < a.Length; i++)
             {
                 var element = CreateArrayElement();
                 element.Location = location;
+                element.Value = a[i];
                 elements.Add(element);
                 location.Y += element.Size.Height + 10;
             }
-            lock (elements)
-            {
-                elements.Reorder();
-            }
+            var log = MethodsHolder.BubbleSort(a);
+            // запускаем поток для модификации модели
+            pkgPainter.RunWorkerAsync(log);
         }
 
         private static ArrayElement CreateArrayElement() => 
-            new ArrayElement() { Size = new System.Drawing.SizeF(35, 35) };
+            new ArrayElement() { Size = new System.Drawing.SizeF(32, 32) };
 
         /// <summary>
         /// При закрытии главной формы
@@ -63,21 +68,35 @@ namespace Sorting
         private void pkgPainter_DoWork(object sender, DoWorkEventArgs e)
         {
             var worker = (BackgroundWorker)sender;
-            var i = 0;
-            elements.DoBubbleIteration(ref i);
+            var log = (List<Tuple<int, int>>)e.Argument;
             while (!worker.CancellationPending)
             {
-                lock (elements)
+                if (elements.Stabilized)
                 {
-                    if (elements.Stabilized)
-                        elements.DoBubbleIteration(ref i);
-                    else
+                    try
+                    {
+                        elements.DoIteration(log);
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
+                }
+                else
+                {
+                    try
+                    {
                         elements.Update();
+                    }
+                    catch (Exception ex)
+                    {
+                        Console.WriteLine(ex);
+                    }
                 }
                 // требование перерисовки формы
                 this.Invalidate();
                 // отдыхаем
-                Thread.Sleep(33);
+                Thread.Sleep(50);
             }
         }
 
@@ -88,18 +107,12 @@ namespace Sorting
         /// <param name="e"></param>
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            lock (elements)
-            {
-                elements.DrawAt(e.Graphics);
-            }
+            elements.DrawAt(e.Graphics);
         }
 
         private void btnReorder_Click(object sender, EventArgs e)
         {
-            lock (elements)
-            {
-                elements.Reorder();
-            }
+
         }
     }
 }

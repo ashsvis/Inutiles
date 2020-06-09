@@ -14,7 +14,14 @@ namespace Sorting
         public void DrawAt(Graphics graphics)
         {
             // для каждого элемнта в списке вызовем метод рисования на канве
-            this.ForEach(x => x.DrawAt(graphics));
+            try
+            {
+                this.ToList().ForEach(x => x.DrawAt(graphics));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
         private int i;
@@ -26,7 +33,7 @@ namespace Sorting
         {
             get
             {
-                return this.All(x => x.Stabilized);
+                return this.ToList().All(x => x.Stabilized);
             }
         }
 
@@ -35,40 +42,25 @@ namespace Sorting
         /// </summary>
         public void Update()
         {
-            // для каждого элемнта в списке вызовем метод коррекции состояния
-            this.ForEach(x => x.Update());
+            // для каждого элемента в списке вызовем метод коррекции состояния
+            try
+            {
+                this.ToList().ForEach(x => x.Update(this));
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex);
+            }
         }
 
-        public void DoBubbleIteration(ref int i)
+        internal void DoIteration(List<Tuple<int, int>> log)
         {
-            i = i == 0 ? 1 : i;
-            if (i < this.Count)
-            {
-                if (this[i].Value < this[i - 1].Value)
-                {
-                    this[i - 1].SetGoalLocation(this[i].Location, this[i].Value);
-                    this[i].SetGoalLocation(this[i - 1].Location, this[i - 1].Value);
-                    //
-                    //var mem = this[i].Value;
-                    //this[i].Value = this[i - 1].Value;
-                    //this[i - 1].Value = mem;
-                }
-                i++;
-            }
-            else
-                i = 0;
-        }
-
-        /// <summary>
-        /// Перемешать значения
-        /// </summary>
-        public void Reorder()
-        {
-            var rand = new Random();
-            foreach (var item in this)
-            {
-                item.Value = rand.Next(0, 1000);
-            }
+            if (log.Count == 0) return;
+            var i1 = log[0].Item1;
+            var i2 = log[0].Item2;
+            this[i1].SetGoalLocation(this[i2].Location, i1, i2);
+            this[i2].SetGoalLocation(this[i1].Location, i2, i1);
+            log.RemoveAt(0);
         }
     }
 }
