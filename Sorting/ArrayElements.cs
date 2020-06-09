@@ -24,8 +24,6 @@ namespace Sorting
             }
         }
 
-        private int i;
-
         /// <summary>
         /// Проверка стабильности списка (нет текущих перемещений)
         /// </summary>
@@ -58,8 +56,13 @@ namespace Sorting
             if (log.Count == 0) return;
             var i1 = log[0].Item1;
             var i2 = log[0].Item2;
-            this[i1].SetGoalLocation(this[i2].Location, i1, i2);
-            this[i2].SetGoalLocation(this[i1].Location, i2, i1);
+            this[i1].SetGoalLocation(this[i2].Location);
+            this[i2].SetGoalLocation(this[i1].Location);
+
+            var mem = this[i1];
+            this[i1] = this[i2];
+            this[i2] = mem;
+
             log.RemoveAt(0);
         }
     }

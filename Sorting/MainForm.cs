@@ -25,14 +25,21 @@ namespace Sorting
         /// <param name="e"></param>
         private void MainForm_Load(object sender, EventArgs e)
         {
+            CreateAndReorder();
+        }
+
+        private void CreateAndReorder()
+        {
             var rand = new Random();
             var a = new int[15];
             for (var i = 0; i < a.Length; i++)
             {
-                a[i] = a.Length - i; //rand.Next(1, 100);
+                //a[i] = a.Length - i;
+                a[i] = rand.Next(1, 100);
             }
+            elements.Clear();
             // добавим элементы
-            var location = new System.Drawing.PointF(100, 50);
+            var location = new System.Drawing.PointF(170, 20);
             for (var i = 0; i < a.Length; i++)
             {
                 var element = CreateArrayElement();
@@ -73,30 +80,18 @@ namespace Sorting
             {
                 if (elements.Stabilized)
                 {
-                    try
+                    if (runned || stepped)
                     {
+                        stepped = false;
                         elements.DoIteration(log);
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
                     }
                 }
                 else
-                {
-                    try
-                    {
-                        elements.Update();
-                    }
-                    catch (Exception ex)
-                    {
-                        Console.WriteLine(ex);
-                    }
-                }
+                    elements.Update();
                 // требование перерисовки формы
                 this.Invalidate();
                 // отдыхаем
-                Thread.Sleep(50);
+                Thread.Sleep(25);
             }
         }
 
@@ -112,7 +107,27 @@ namespace Sorting
 
         private void btnReorder_Click(object sender, EventArgs e)
         {
+            btnReorder.Enabled = false;
+            pkgPainter.CancelAsync();
+            while (pkgPainter.IsBusy)
+                Application.DoEvents();
+            btnReorder.Enabled = true;
+            CreateAndReorder();
+        }
 
+        private bool stepped = false;
+
+        private void btnStep_Click(object sender, EventArgs e)
+        {
+            stepped = true;
+        }
+
+        private bool runned = false;
+
+        private void btnStartStop_Click(object sender, EventArgs e)
+        {
+            runned = !runned;
+            btnStartStop.Text = runned ? "Стоп" : "Пуск";
         }
     }
 }

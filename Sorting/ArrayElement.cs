@@ -27,15 +27,10 @@ namespace Sorting
             return $"{Value} {Stabilized}";
         }
 
-        private int selfIndex;
-        private int goalIndex;
-
-        public void SetGoalLocation(PointF goalLocation, int selfIndex, int goalIndex)
+        public void SetGoalLocation(PointF goalLocation)
         {
             if (Math.Abs(goalLocation.X - Location.X) < 0.0001 &&
                 Math.Abs(goalLocation.Y - Location.Y) < 0.0001) return;
-            this.selfIndex = selfIndex;
-            this.goalIndex = goalIndex;
             var pt2 = GetMiddlePoint(Location, goalLocation);
             if (goalLocation.Y > Location.Y)
                 pt2.X += 32;
@@ -48,7 +43,7 @@ namespace Sorting
             var pt2_3 = GetMiddlePoint(pt2, pt3);
             var pt3_g = GetMiddlePoint(pt3, goalLocation);
             frames.Clear();
-            frames.AddRange(new[] { ptL_1, pt1, pt1_2, pt2, pt2_3, pt3, pt3_g, goalLocation, goalLocation });
+            frames.AddRange(new[] { Location, Location, ptL_1, pt1, pt1_2, pt2, pt2_3, pt3, pt3_g, goalLocation, goalLocation });
 
         }
 
