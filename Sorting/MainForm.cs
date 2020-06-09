@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 using System.Threading;
 using System.Windows.Forms;
 
@@ -9,8 +10,7 @@ namespace Sorting
     public partial class MainForm : Form
     {
         // список рисуемых объектов
-        private ArrayElements elements1 = new ArrayElements();
-        private ArrayElements elements2 = new ArrayElements();
+        private List<ArrayElements> elements = new List<ArrayElements>();
 
         public MainForm()
         {
@@ -31,40 +31,59 @@ namespace Sorting
 
         private void CreateAndReorder(int @case = 0)
         {
+            elements.Clear();
             var rand = new Random();
-            var a1 = new int[15];
-            var a2 = new int[15];
-            for (var i = 0; i < a1.Length; i++)
+            var a = new List<int[]>();
+            a.Add(new int[15]);
+            a.Add(new int[15]);
+            var cash = new List<int>();
+            var initCash = false;
+            foreach (var arr in a)
             {
-                var value = @case == 0 ? rand.Next(1, 100) : a1.Length - i;
-                a1[i] = value;
-                a2[i] = value;
+                elements.Add(new ArrayElements());
+                var length = a.First().Length;
+                for (var i = 0; i < length; i++)
+                {
+                    var value = @case == 0 ? rand.Next(1, 100) : length - i;
+                    arr[i] = initCash ? cash[i] : value;
+                    if (!initCash)
+                        cash.Add(value);
+                }
+                initCash = true;
             }
-            elements1.Clear();
             // добавим элементы
-            var location = new System.Drawing.PointF(170, 20);
-            for (var i = 0; i < a1.Length; i++)
+            var n = 0;
+            var x = 170;
+            foreach (var arr in a)
             {
-                var element = CreateArrayElement();
-                element.Location = location;
-                element.Value = a1[i];
-                elements1.Add(element);
-                location.Y += element.Size.Height + 10;
+                var location = new System.Drawing.PointF(x, 20);
+                var length = a.First().Length;
+                for (var i = 0; i < length; i++)
+                {
+                    var element = CreateArrayElement();
+                    element.Location = location;
+                    element.Value = arr[i];
+                    elements[n].Add(element);
+                    location.Y += element.Size.Height + 10;
+                }
+                n++;
+                x += 100;
             }
-            elements2.Clear();
-            location = new System.Drawing.PointF(270, 20);
-            for (var i = 0; i < a2.Length; i++)
+            var logs = new List<Tuple<int, int>>[a.Count];
+            for (var i = 0; i < a.Count; i++)
             {
-                var element = CreateArrayElement();
-                element.Location = location;
-                element.Value = a2[i];
-                elements2.Add(element);
-                location.Y += element.Size.Height + 10;
+                switch (i)
+                {
+                    case 0:
+                        logs[i] = MethodsHolder.BubbleSort(a[i]);
+                        break;
+                    case 1:
+                        logs[i] = MethodsHolder.ShakerSort(a[i]);
+                        break;
+                }
             }
-            var log1 = MethodsHolder.BubbleSort(a1);
-            var log2 = MethodsHolder.ShakerSort(a2);
             // запускаем поток для модификации модели
-            pkgPainter.RunWorkerAsync(new[] { log1, log2 });
+            pkgPainter.RunWorkerAsync(logs);
         }
 
         private static ArrayElement CreateArrayElement() => 
@@ -94,14 +113,13 @@ namespace Sorting
             {
                 if (runned)
                 {
-                    if (elements1.Stabilized)
-                        elements1.DoIteration(logs[0]);
-                    else
-                        elements1.Update();
-                    if (elements2.Stabilized)
-                        elements2.DoIteration(logs[1]);
-                    else
-                        elements2.Update();
+                    for (var i = 0; i < logs.Length; i++)
+                    {
+                        if (elements[i].Stabilized)
+                            elements[i].DoIteration(logs[i]);
+                        else
+                            elements[i].Update();
+                    }
                 }
                 // требование перерисовки формы
                 this.Invalidate();
@@ -117,8 +135,8 @@ namespace Sorting
         /// <param name="e"></param>
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            elements1.DrawAt(e.Graphics);
-            elements2.DrawAt(e.Graphics);
+            foreach (var elem in elements)
+                elem.DrawAt(e.Graphics);
         }
 
         private void btnReorder_Click(object sender, EventArgs e)
