@@ -31,6 +31,7 @@
             this.pkgPainter = new System.ComponentModel.BackgroundWorker();
             this.btnReorder = new System.Windows.Forms.Button();
             this.btnStartStop = new System.Windows.Forms.Button();
+            this.btnReverseRange = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // pkgPainter
@@ -58,12 +59,23 @@
             this.btnStartStop.UseVisualStyleBackColor = true;
             this.btnStartStop.Click += new System.EventHandler(this.btnStartStop_Click);
             // 
+            // btnReverseRange
+            // 
+            this.btnReverseRange.Location = new System.Drawing.Point(12, 72);
+            this.btnReverseRange.Name = "btnReverseRange";
+            this.btnReverseRange.Size = new System.Drawing.Size(103, 23);
+            this.btnReverseRange.TabIndex = 0;
+            this.btnReverseRange.Text = "Обратный ряд";
+            this.btnReverseRange.UseVisualStyleBackColor = true;
+            this.btnReverseRange.Click += new System.EventHandler(this.btnReverseRange_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(449, 700);
             this.Controls.Add(this.btnStartStop);
+            this.Controls.Add(this.btnReverseRange);
             this.Controls.Add(this.btnReorder);
             this.Font = new System.Drawing.Font("Segoe UI", 9F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.Name = "MainForm";
@@ -80,6 +92,7 @@
         private System.ComponentModel.BackgroundWorker pkgPainter;
         private System.Windows.Forms.Button btnReorder;
         private System.Windows.Forms.Button btnStartStop;
+        private System.Windows.Forms.Button btnReverseRange;
     }
 }
 

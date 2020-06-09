@@ -5,6 +5,14 @@ namespace Sorting
 {
     internal static class MethodsHolder
     {
+
+        private static void Swap(int[] array, int i, int j)
+        {
+            var m = array[i];
+            array[i] = array[j];
+            array[j] = m;
+        }
+
         /// <summary>
         /// Алгоритм состоит из повторяющихся проходов по сортируемому массиву.
         /// За каждый проход элементы последовательно сравниваются попарно и, если порядок в паре неверный, выполняется обмен элементов.
@@ -24,15 +32,62 @@ namespace Sorting
                 {
                     if (array[i] > array[i + 1])
                     {
-                        var m = array[i];
-                        array[i] = array[i + 1];
-                        array[i + 1] = m;
+                        Swap(array, i, i + 1);
                         flag = true;
                         //
                         swaps.Add(new Tuple<int, int>(i, i + 1));
                     }
                 }
                 if (!flag) break;
+            }
+            return swaps;
+        }
+
+        /// <summary>
+        /// Сортировка перемешиванием, или Шейкерная сортировка, или двунаправленная (англ. Cocktail sort) — разновидность пузырьковой сортировки.
+        /// Анализируя метод пузырьковой сортировки, можно отметить два обстоятельства.
+        /// Во-первых, если при движении по части массива перестановки не происходят, то эта часть массива уже отсортирована и, 
+        /// следовательно, её можно исключить из рассмотрения.
+        /// Во-вторых, при движении от конца массива к началу минимальный элемент «всплывает» на первую позицию, 
+        /// а максимальный элемент сдвигается только на одну позицию вправо.
+        /// Эти две идеи приводят к следующим модификациям в методе пузырьковой сортировки.
+        /// Границы рабочей части массива(то есть части массива, где происходит движение) устанавливаются в месте последнего обмена на каждой итерации.
+        /// Массив просматривается поочередно справа налево и слева направо.
+        /// Источник: https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%BF%D0%B5%D1%80%D0%B5%D0%BC%D0%B5%D1%88%D0%B8%D0%B2%D0%B0%D0%BD%D0%B8%D0%B5%D0%BC
+        /// </summary>
+        internal static List<Tuple<int, int>> ShakerSort(int[] array)
+        {
+            var swaps = new List<Tuple<int, int>>();
+
+            int left = 0,
+                right = array.Length - 1,
+                count = 0;
+
+            while (left < right)
+            {
+                for (int i = left; i < right; i++)
+                {
+                    count++;
+                    if (array[i] > array[i + 1])
+                    {
+                        Swap(array, i, i + 1);
+                        //
+                        swaps.Add(new Tuple<int, int>(i, i + 1));
+                    }
+                }
+                right--;
+
+                for (int i = right; i > left; i--)
+                {
+                    count++;
+                    if (array[i - 1] > array[i])
+                    {
+                        Swap(array, i - 1, i);
+                        //
+                        swaps.Add(new Tuple<int, int>(i - 1, i));
+                    }
+                }
+                left++;
             }
             return swaps;
         }

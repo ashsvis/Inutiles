@@ -29,14 +29,14 @@ namespace Sorting
             CreateAndReorder();
         }
 
-        private void CreateAndReorder()
+        private void CreateAndReorder(int @case = 0)
         {
             var rand = new Random();
             var a1 = new int[15];
             var a2 = new int[15];
             for (var i = 0; i < a1.Length; i++)
             {
-                var value = rand.Next(1, 100);
+                var value = @case == 0 ? rand.Next(1, 100) : a1.Length - i;
                 a1[i] = value;
                 a2[i] = value;
             }
@@ -62,7 +62,7 @@ namespace Sorting
                 location.Y += element.Size.Height + 10;
             }
             var log1 = MethodsHolder.BubbleSort(a1);
-            var log2 = MethodsHolder.BubbleSort(a2);
+            var log2 = MethodsHolder.ShakerSort(a2);
             // запускаем поток для модификации модели
             pkgPainter.RunWorkerAsync(new[] { log1, log2 });
         }
@@ -129,6 +129,16 @@ namespace Sorting
                 Application.DoEvents();
             btnReorder.Enabled = true;
             CreateAndReorder();
+        }
+
+        private void btnReverseRange_Click(object sender, EventArgs e)
+        {
+            btnReorder.Enabled = false;
+            pkgPainter.CancelAsync();
+            while (pkgPainter.IsBusy)
+                Application.DoEvents();
+            btnReorder.Enabled = true;
+            CreateAndReorder(1);
         }
 
         private bool runned = false;
