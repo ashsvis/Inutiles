@@ -34,8 +34,10 @@ namespace Sorting
             elements.Clear();
             var rand = new Random();
             var a = new List<int[]>();
-            a.Add(new int[15]);
-            a.Add(new int[15]);
+            var count = 15;
+            a.Add(new int[count]);
+            a.Add(new int[count]);
+            a.Add(new int[count]);
             var cash = new List<int>();
             var initCash = false;
             foreach (var arr in a)
@@ -79,6 +81,9 @@ namespace Sorting
                         break;
                     case 1:
                         logs[i] = MethodsHolder.ShakerSort(a[i]);
+                        break;
+                    case 2:
+                        logs[i] = MethodsHolder.InsertionSort(a[i]);
                         break;
                 }
             }
@@ -141,6 +146,9 @@ namespace Sorting
 
         private void btnReorder_Click(object sender, EventArgs e)
         {
+            runned = false;
+            btnStartStop.Text = "Пуск";
+
             btnReorder.Enabled = false;
             pkgPainter.CancelAsync();
             while (pkgPainter.IsBusy)
@@ -151,6 +159,9 @@ namespace Sorting
 
         private void btnReverseRange_Click(object sender, EventArgs e)
         {
+            runned = false;
+            btnStartStop.Text = "Пуск";
+
             btnReorder.Enabled = false;
             pkgPainter.CancelAsync();
             while (pkgPainter.IsBusy)

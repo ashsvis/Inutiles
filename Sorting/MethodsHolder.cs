@@ -91,5 +91,32 @@ namespace Sorting
             }
             return swaps;
         }
+
+        /// <summary>
+        /// Сортировка вставками (англ. Insertion sort) — алгоритм сортировки, в котором элементы входной последовательности просматриваются по одному,
+        /// и каждый новый поступивший элемент размещается в подходящее место среди ранее упорядоченных элементов
+        /// Источник: https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%B2%D1%81%D1%82%D0%B0%D0%B2%D0%BA%D0%B0%D0%BC%D0%B8
+        /// </summary>
+        internal static List<Tuple<int, int>> InsertionSort(int[] array)
+        {
+            var swaps = new List<Tuple<int, int>>();
+            for (var i = 1; i < array.Length; i++)
+            {
+                var x = array[i];
+                var j = i;
+                while (j >= 1 && array[j - 1] > x)
+                {
+                    //
+                    array[j] = array[j - 1];
+                    swaps.Add(new Tuple<int, int>(j, j - 1));
+                    j = j - 1;
+                }
+                array[j] = x;
+                //
+                swaps.Add(new Tuple<int, int>(j, i));
+            }
+            //
+            return swaps;
+        }
     }
 }
