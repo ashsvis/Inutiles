@@ -39,6 +39,7 @@
             this.label3 = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
             this.tlpHeader.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -92,17 +93,19 @@
             this.tlpHeader.Anchor = ((System.Windows.Forms.AnchorStyles)(((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Left) 
             | System.Windows.Forms.AnchorStyles.Right)));
             this.tlpHeader.CellBorderStyle = System.Windows.Forms.TableLayoutPanelCellBorderStyle.Inset;
-            this.tlpHeader.ColumnCount = 5;
-            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
-            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 20F));
+            this.tlpHeader.ColumnCount = 6;
+            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
+            this.tlpHeader.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 16.66667F));
             this.tlpHeader.Controls.Add(this.label1, 0, 0);
             this.tlpHeader.Controls.Add(this.label2, 1, 0);
             this.tlpHeader.Controls.Add(this.label3, 2, 0);
             this.tlpHeader.Controls.Add(this.label4, 3, 0);
             this.tlpHeader.Controls.Add(this.label5, 4, 0);
+            this.tlpHeader.Controls.Add(this.label6, 5, 0);
             this.tlpHeader.Font = new System.Drawing.Font("Segoe UI", 7F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(204)));
             this.tlpHeader.Location = new System.Drawing.Point(12, 37);
             this.tlpHeader.Name = "tlpHeader";
@@ -117,7 +120,7 @@
             this.label1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.label1.Location = new System.Drawing.Point(5, 2);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(76, 20);
+            this.label1.Size = new System.Drawing.Size(62, 20);
             this.label1.TabIndex = 0;
             this.label1.Text = "Пузырёк";
             this.label1.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -126,9 +129,9 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label2.Location = new System.Drawing.Point(89, 2);
+            this.label2.Location = new System.Drawing.Point(75, 2);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(76, 20);
+            this.label2.Size = new System.Drawing.Size(62, 20);
             this.label2.TabIndex = 0;
             this.label2.Text = "Шейкер";
             this.label2.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -137,9 +140,9 @@
             // 
             this.label3.AutoSize = true;
             this.label3.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label3.Location = new System.Drawing.Point(173, 2);
+            this.label3.Location = new System.Drawing.Point(145, 2);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(76, 20);
+            this.label3.Size = new System.Drawing.Size(62, 20);
             this.label3.TabIndex = 0;
             this.label3.Text = "Вставки";
             this.label3.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -148,9 +151,9 @@
             // 
             this.label4.AutoSize = true;
             this.label4.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label4.Location = new System.Drawing.Point(257, 2);
+            this.label4.Location = new System.Drawing.Point(215, 2);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(76, 20);
+            this.label4.Size = new System.Drawing.Size(62, 20);
             this.label4.TabIndex = 0;
             this.label4.Text = "Быстрый";
             this.label4.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -159,12 +162,23 @@
             // 
             this.label5.AutoSize = true;
             this.label5.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.label5.Location = new System.Drawing.Point(341, 2);
+            this.label5.Location = new System.Drawing.Point(285, 2);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(79, 20);
+            this.label5.Size = new System.Drawing.Size(62, 20);
             this.label5.TabIndex = 0;
             this.label5.Text = "Расчёска";
             this.label5.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.label6.Location = new System.Drawing.Point(355, 2);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(65, 20);
+            this.label6.TabIndex = 0;
+            this.label6.Text = "Выбор";
+            this.label6.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
             // 
             // MainForm
             // 
@@ -202,6 +216,7 @@
         private System.Windows.Forms.Label label3;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
     }
 }
 

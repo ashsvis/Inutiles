@@ -40,6 +40,7 @@ namespace Sorting
             a.Add(new int[count]);
             a.Add(new int[count]);
             a.Add(new int[count]);
+            a.Add(new int[count]);
             var cash = new List<int>();
             var initCash = false;
             foreach (var arr in a)
@@ -57,7 +58,7 @@ namespace Sorting
             }
             // добавим элементы
             var n = 0;
-            var headColumnWidth = tlpHeader.Bounds.Width / tlpHeader.ColumnCount - 3;
+            var headColumnWidth = tlpHeader.Bounds.Width / tlpHeader.ColumnCount - 2;
             var x = tlpHeader.Bounds.Left + headColumnWidth / 2 - 2;
             var y = tlpHeader.Bounds.Bottom + 5;
             foreach (var arr in a)
@@ -94,6 +95,9 @@ namespace Sorting
                         break;
                     case 4:
                         logs[i] = MethodsHolder.CombSort(a[i]);
+                        break;
+                    case 5:
+                        logs[i] = MethodsHolder.SelectionSort(a[i]);
                         break;
                 }
             }

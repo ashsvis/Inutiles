@@ -190,5 +190,32 @@ namespace Sorting
             //
             return swaps;
         }
+
+        /// <summary>
+        /// Сортировка выбором (Selection sort)
+        /// Источник: https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D0%B2%D1%8B%D0%B1%D0%BE%D1%80%D0%BE%D0%BC
+        /// </summary>
+        /// <returns></returns>
+        internal static List<Tuple<int, int>> SelectionSort(int[] array)
+        {
+            var swaps = new List<Tuple<int, int>>();
+            for (int i = 0; i < array.Length - 1; i++)
+            {
+                int min = i;
+                for (int j = i + 1; j < array.Length; j++)
+                {
+                    if (array[j] < array[min])
+                    {
+                        min = j;
+                    }
+                }
+                Swap(array, i, min);
+                //
+                swaps.Add(new Tuple<int, int>(i, min));
+            }
+            //
+            return swaps;
+        }
+
     }
 }
