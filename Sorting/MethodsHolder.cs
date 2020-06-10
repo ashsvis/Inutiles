@@ -161,5 +161,34 @@ namespace Sorting
                 swaps.Add(new Tuple<int, int>(i, j));
             }
         }
+
+        /// <summary>
+        /// Сортировка расчёской (англ. comb sort)
+        /// Источник: https://ru.wikipedia.org/wiki/%D0%A1%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0_%D1%80%D0%B0%D1%81%D1%87%D1%91%D1%81%D0%BA%D0%BE%D0%B9
+        /// </summary>
+        internal static List<Tuple<int, int>> CombSort(int[] array)
+        {
+            var swaps = new List<Tuple<int, int>>();
+            double fakt = 1.2473309; // фактор уменьшения
+            var step = array.Length - 1;
+
+            while (step >= 1)
+            {
+                for (int i = 0; i + step < array.Length; ++i)
+                {
+                    if (array[i] > array[i + step])
+                    {
+                        Swap(array, i, i + step);
+                        //
+                        swaps.Add(new Tuple<int, int>(i, i + step));
+                    }
+                }
+                step = (int)(step / fakt);
+            }
+            // досортировка пузырьком
+            swaps.AddRange(BubbleSort(array));
+            //
+            return swaps;
+        }
     }
 }
