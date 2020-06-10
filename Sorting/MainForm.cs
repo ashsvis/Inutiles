@@ -57,10 +57,12 @@ namespace Sorting
             }
             // добавим элементы
             var n = 0;
-            var x = 40;
+            var headColumnWidth = tlpHeader.Bounds.Width / tlpHeader.ColumnCount - 3;
+            var x = tlpHeader.Bounds.Left + headColumnWidth / 2 - 2;
+            var y = tlpHeader.Bounds.Bottom + 5;
             foreach (var arr in a)
             {
-                var location = new System.Drawing.PointF(x, 40);
+                var location = new System.Drawing.PointF(x, y);
                 var length = a.First().Length;
                 for (var i = 0; i < length; i++)
                 {
@@ -71,7 +73,7 @@ namespace Sorting
                     location.Y += element.Size.Height + 5;
                 }
                 n++;
-                x += 80;
+                x += headColumnWidth;
             }
             var logs = new List<Tuple<int, int>>[a.Count];
             for (var i = 0; i < a.Count; i++)
