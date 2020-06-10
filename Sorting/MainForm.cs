@@ -34,7 +34,7 @@ namespace Sorting
             elements.Clear();
             var rand = new Random();
             var a = new List<int[]>();
-            var count = 15;
+            var count = 25;
             a.Add(new int[count]);
             a.Add(new int[count]);
             a.Add(new int[count]);
@@ -55,10 +55,10 @@ namespace Sorting
             }
             // добавим элементы
             var n = 0;
-            var x = 170;
+            var x = 40;
             foreach (var arr in a)
             {
-                var location = new System.Drawing.PointF(x, 20);
+                var location = new System.Drawing.PointF(x, 40);
                 var length = a.First().Length;
                 for (var i = 0; i < length; i++)
                 {
@@ -66,10 +66,10 @@ namespace Sorting
                     element.Location = location;
                     element.Value = arr[i];
                     elements[n].Add(element);
-                    location.Y += element.Size.Height + 10;
+                    location.Y += element.Size.Height + 5;
                 }
                 n++;
-                x += 100;
+                x += 80;
             }
             var logs = new List<Tuple<int, int>>[a.Count];
             for (var i = 0; i < a.Count; i++)
@@ -92,7 +92,7 @@ namespace Sorting
         }
 
         private static ArrayElement CreateArrayElement() => 
-            new ArrayElement() { Size = new System.Drawing.SizeF(32, 32) };
+            new ArrayElement() { Size = new System.Drawing.SizeF(25, 25) };
 
         /// <summary>
         /// При закрытии главной формы
@@ -116,12 +116,16 @@ namespace Sorting
             var logs = (List<Tuple<int, int>>[])e.Argument;
             while (!worker.CancellationPending)
             {
-                if (runned)
+                if (runned || step)
                 {
                     for (var i = 0; i < logs.Length; i++)
                     {
                         if (elements[i].Stabilized)
+                        {
                             elements[i].DoIteration(logs[i]);
+                            if (i == logs.Length - 1)
+                                step = false;
+                        }
                         else
                             elements[i].Update();
                     }
@@ -146,6 +150,7 @@ namespace Sorting
 
         private void btnReorder_Click(object sender, EventArgs e)
         {
+            step = true;
             runned = false;
             btnStartStop.Text = "Пуск";
 
@@ -159,6 +164,7 @@ namespace Sorting
 
         private void btnReverseRange_Click(object sender, EventArgs e)
         {
+            step = true;
             runned = false;
             btnStartStop.Text = "Пуск";
 
@@ -176,6 +182,13 @@ namespace Sorting
         {
             runned = !runned;
             btnStartStop.Text = runned ? "Стоп" : "Пуск";
+        }
+
+        private bool step = true;
+
+        private void btnStep_Click(object sender, EventArgs e)
+        {
+            step = true;
         }
     }
 }

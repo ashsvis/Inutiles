@@ -112,8 +112,6 @@ namespace Sorting
                     j = j - 1;
                 }
                 array[j] = x;
-                //
-                swaps.Add(new Tuple<int, int>(j, i));
             }
             //
             return swaps;
