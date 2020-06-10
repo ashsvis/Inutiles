@@ -38,6 +38,7 @@ namespace Sorting
             a.Add(new int[count]);
             a.Add(new int[count]);
             a.Add(new int[count]);
+            a.Add(new int[count]);
             var cash = new List<int>();
             var initCash = false;
             foreach (var arr in a)
@@ -84,6 +85,9 @@ namespace Sorting
                         break;
                     case 2:
                         logs[i] = MethodsHolder.InsertionSort(a[i]);
+                        break;
+                    case 3:
+                        logs[i] = MethodsHolder.QuickSort(a[i]);
                         break;
                 }
             }

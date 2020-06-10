@@ -116,5 +116,50 @@ namespace Sorting
             //
             return swaps;
         }
+
+        /// <summary>
+        /// Быстрая сортировка, сортировка Хоара (англ. quicksort)
+        /// Источник: https://ru.wikipedia.org/wiki/%D0%91%D1%8B%D1%81%D1%82%D1%80%D0%B0%D1%8F_%D1%81%D0%BE%D1%80%D1%82%D0%B8%D1%80%D0%BE%D0%B2%D0%BA%D0%B0
+        /// </summary>
+        internal static List<Tuple<int, int>> QuickSort(int[] array)
+        {
+            var swaps = new List<Tuple<int, int>>();
+            QuickSort(array, 0, array.Length - 1, swaps);
+            //
+            return swaps;
+        }
+
+        private static void QuickSort(int[] array, int lo, int hi, List<Tuple<int, int>> swaps)
+        {
+            if (lo < hi)
+            {
+                var p = Partition(array, lo, hi, swaps);
+                QuickSort(array, lo, p, swaps);
+                QuickSort(array, p + 1, hi, swaps);
+            }
+        }
+
+        private static int Partition(int[] array, int low, int high, List<Tuple<int, int>> swaps)
+        {
+            var pivot = array[(low + high) / 2];
+            var i = low - 1;
+            var j = high + 1;
+            while (true)
+            {
+                do
+                {
+                    i++;
+                } while (array[i] < pivot);
+                do
+                {
+                    j--;
+                } while (array[j] > pivot);
+                if (i >= j)
+                    return j;
+                Swap(array, i, j);
+                //
+                swaps.Add(new Tuple<int, int>(i, j));
+            }
+        }
     }
 }
