@@ -33,9 +33,9 @@ namespace Sorting
                 Math.Abs(goalLocation.Y - Location.Y) < 0.0001) return;
             var pt2 = GetMiddlePoint(Location, goalLocation);
             if (goalLocation.Y > Location.Y)
-                pt2.X += 32;
+                pt2.X += 40;
             else
-                pt2.X -= 32;
+                pt2.X -= 0;
             var pt1 = GetMiddlePoint(Location, pt2);
             var pt3 = GetMiddlePoint(pt2, goalLocation);
             var ptL_1 = GetMiddlePoint(Location, pt1);
@@ -57,8 +57,10 @@ namespace Sorting
         public void DrawAt(Graphics graphics)
         {
             var rect = new RectangleF(Location, Size);
-            graphics.FillRectangle(Brushes.White, rect);
-            graphics.DrawRectangles(Pens.Black, new[] { rect });
+            //graphics.FillRectangle(Brushes.White, rect);
+            //graphics.DrawRectangles(Pens.Black, new[] { rect });
+            graphics.FillEllipse(Brushes.White, rect);
+            graphics.DrawEllipse(Pens.Black, rect);
             using (var format = new StringFormat())
             {
                 format.Alignment = StringAlignment.Center;

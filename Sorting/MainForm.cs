@@ -106,7 +106,7 @@ namespace Sorting
         }
 
         private static ArrayElement CreateArrayElement() => 
-            new ArrayElement() { Size = new System.Drawing.SizeF(25, 25) };
+            new ArrayElement() { Size = new System.Drawing.SizeF(29, 29) };
 
         /// <summary>
         /// При закрытии главной формы

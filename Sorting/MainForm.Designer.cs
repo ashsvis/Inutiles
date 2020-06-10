@@ -184,7 +184,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(7F, 15F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(449, 820);
+            this.ClientSize = new System.Drawing.Size(449, 922);
             this.Controls.Add(this.tlpHeader);
             this.Controls.Add(this.btnStep);
             this.Controls.Add(this.btnStartStop);
