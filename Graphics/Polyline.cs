@@ -49,5 +49,16 @@ namespace Graphics
                 }
             }
         }
+
+        /// <summary>
+        /// Удаляем ранее созданный маркер
+        /// </summary>
+        /// <param name="marker"></param>
+        public override void Remove(Marker marker)
+        {
+            // если точек меньше трёх, то удаления не будет, так как линия уже не будет существовать
+            if (markers.Count < 3) return;
+            markers.Remove(marker);
+        }
     }
 }

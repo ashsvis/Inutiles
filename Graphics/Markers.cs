@@ -32,9 +32,13 @@ namespace Graphics
         /// Удаляем ранее созданный маркер
         /// </summary>
         /// <param name="marker"></param>
-        public void Remove(Marker marker)
+        public virtual void Remove(Marker marker)
         {
-            markers.Remove(marker);
+            // при удалении маркера из списка - пытаемся удалить маркер выбранной фигуры
+            if (Selected != null)
+                Selected.Remove(marker);
+            else
+                markers.Remove(marker);
         }
 
         /// <summary>
@@ -54,9 +58,17 @@ namespace Graphics
         /// <param name="graphics"></param>
         public virtual void Draw(System.Drawing.Graphics graphics, Pen pen = null)
         {
+            // если ссылка на выбрануюу фигуру существует, то
+            var markers = Selected != null ? Selected.markers : this.markers;
+            // будем рисовать маркеры выбранной фигуры, а иначе - свои собственные
             foreach (var marker in markers)
                 graphics.DrawRectangles(pen ?? Pens.Magenta, new[] { marker.Bounds });
         }
+
+        /// <summary>
+        /// Ссылка на текущую выбранную фигуру
+        /// </summary>
+        public Markers Selected { get; set; }
 
         /// <summary>
         /// Метод подключения перегрузок для проверки попадания на фигуру
@@ -126,8 +138,11 @@ namespace Graphics
         public void Fill(Markers markers)
         {
             markers.Clear();
+            // передаём все ссылки на маркеры
             foreach (var marker in this.markers)
                 markers.Add(marker);
+            // при передаче маркеров также передаётся ссылка на самое себя
+            markers.Selected = this;
         }
 
         /// <summary>
@@ -146,6 +161,8 @@ namespace Graphics
         /// </summary>
         public void Clear()
         {
+            // при очистке ссылку не выбранную фигуру также очищаем
+            Selected = null;
             markers.Clear();
         }
     }
