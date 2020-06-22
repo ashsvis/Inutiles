@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
 using System.Windows.Forms;
@@ -17,7 +18,9 @@ namespace Graphics
         /// </summary>
         private Markers markers = new Markers();
 
-        private Markers polyline = new Markers();
+        private List<Markers> figures = new List<Markers>();
+
+        private Polyline polyline;
 
         public MainForm()
         {
@@ -32,12 +35,18 @@ namespace Graphics
         /// <param name="e"></param>
         private void MainForm_Paint(object sender, PaintEventArgs e)
         {
-            // рисуем все запомненные маркеры
-            markers.DrawMarkers(e.Graphics);
+            // рисуем все фигуры
+            foreach (var fig in figures)
+                fig.Draw(e.Graphics);
 
-            polyline.DrawFigure(e.Graphics);
+            // рисуем все запомненные маркеры
+            markers.Draw(e.Graphics);
+
             if (Mode == EditorMode.BuildLine)
+            {
+                polyline.Draw(e.Graphics);
                 polyline.DrawRibbonLine(e.Graphics, PointToClient(MousePosition));
+            }
         }
 
         /// <summary>
@@ -152,8 +161,8 @@ namespace Graphics
         /// <param name="e"></param>
         private void tsmiBeginLine_Click(object sender, EventArgs e)
         {
+            polyline = new Polyline();
             Mode = EditorMode.BuildLine;
-            polyline.Clear();
             Invalidate();
         }
 
@@ -169,7 +178,7 @@ namespace Graphics
                 case Keys.Escape:
                     if (Mode == EditorMode.BuildLine)
                     {
-
+                        figures.Add(polyline);
                     }
                     Mode = EditorMode.None;
                     break;

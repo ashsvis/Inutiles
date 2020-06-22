@@ -1,14 +1,13 @@
-﻿using System.Linq;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
-using System;
 
 namespace Graphics
 {
     public class Markers
     {
-        private List<Marker> markers = new List<Marker>();
+        protected List<Marker> markers = new List<Marker>();
 
         /// <summary>
         /// Добавляем ранее созданный маркер
@@ -52,26 +51,10 @@ namespace Graphics
         /// Рисуем все маркеры из коллекции
         /// </summary>
         /// <param name="graphics"></param>
-        public void DrawMarkers(System.Drawing.Graphics graphics)
+        public virtual void Draw(System.Drawing.Graphics graphics)
         {
             foreach (var marker in markers)
                 graphics.DrawRectangles(Pens.Magenta, new[] { marker.Bounds });
-        }
-
-        /// <summary>
-        /// Рисуем линию через все точки
-        /// </summary>
-        /// <param name="graphics"></param>
-        public void DrawFigure(System.Drawing.Graphics graphics)
-        {
-            if (markers.Count < 2) return;
-            graphics.DrawLines(Pens.DarkMagenta, markers.Select(x => x.Location).ToArray());
-        }
-
-        public void DrawRibbonLine(System.Drawing.Graphics graphics, Point mousePosition)
-        {
-            if (markers.Count < 1) return;
-            graphics.DrawLine(Pens.Magenta, markers.Last().Location, mousePosition);
         }
 
         /// <summary>
@@ -143,31 +126,5 @@ namespace Graphics
         {
             markers.Clear();
         }
-    }
-
-    /// <summary>
-    /// Класс маркера
-    /// </summary>
-    public class Marker
-    {
-        /// <summary>
-        /// Позиция маркера (его центральная точка)
-        /// </summary>
-        public PointF Location { get; internal set; }
-
-        /// <summary>
-        /// Размер маркера в пискелях
-        /// </summary>
-        public SizeF Size { get => new SizeF(4, 4); }
-
-        /// <summary>
-        /// Прямоугольник с положением и размерами маркера
-        /// </summary>
-        public RectangleF Bounds => new RectangleF(PointF.Subtract(Location, new SizeF(Size.Width / 2, Size.Height / 2)), Size);
-
-        /// <summary>
-        /// Курсор маркера перегружаемый
-        /// </summary>
-        public virtual Cursor Cursor { get => Cursors.Hand; }
     }
 }
