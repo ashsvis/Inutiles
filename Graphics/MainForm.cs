@@ -23,6 +23,8 @@ namespace Graphics
 
         private Polyline polyline;
 
+        private Rect rectangle;
+
         public MainForm()
         {
             InitializeComponent();
@@ -47,6 +49,11 @@ namespace Graphics
                 polyline.Draw(e.Graphics);
                 polyline.DrawRibbonLine(e.Graphics, PointToClient(MousePosition));
             }
+            if (Mode == EditorMode.BuildRect)
+            {
+                rectangle.Draw(e.Graphics);
+                rectangle.DrawRibbonRect(e.Graphics, PointToClient(MousePosition));
+            }
         }
 
         /// <summary>
@@ -69,13 +76,14 @@ namespace Graphics
         /// <param name="e"></param>
         private void cmsPopup_Opening(object sender, CancelEventArgs e)
         {
-            if (Mode == EditorMode.BuildLine)
+            switch (Mode)
             {
-                figures.Add(polyline);
-                Mode = EditorMode.None;
-                Cursor = Cursors.Default;
-                e.Cancel = true;
-                return;
+                case EditorMode.BuildLine:
+                    figures.Add(polyline);
+                    Mode = EditorMode.None;
+                    Cursor = Cursors.Default;
+                    e.Cancel = true;
+                    return;
             }
             // запоминаем позицию курсора в координатах поверхности щелчка
             mousePosition = PointToClient(MousePosition);
@@ -109,6 +117,18 @@ namespace Graphics
                     if (e.Button == MouseButtons.Left)
                         polyline.Add(e.Location);
                     break;
+                case EditorMode.BuildRect:
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        rectangle.Add(e.Location);
+                        if (rectangle.Count == 2)
+                        {
+                            figures.Add(rectangle);
+                            Mode = EditorMode.None;
+                            Cursor = Cursors.Default;
+                        }
+                    }
+                    break;
                 default:
                     // ищем попадание указателя на фигуру
                     var fig = figures.LastOrDefault(x => x.Contained(e.Location));
@@ -137,6 +157,7 @@ namespace Graphics
             switch (Mode)
             {
                 case EditorMode.BuildLine:
+                case EditorMode.BuildRect:
                     Cursor = Cursors.Cross;
                     break;
                 default:
@@ -168,7 +189,8 @@ namespace Graphics
         enum EditorMode
         {
             None,
-            BuildLine
+            BuildLine,
+            BuildRect
         }
 
         // теущий режим редактора
@@ -197,13 +219,25 @@ namespace Graphics
             {
                 case Keys.Escape:
                     if (Mode == EditorMode.BuildLine)
-                    {
                         figures.Add(polyline);
-                    }
+                    if (Mode == EditorMode.BuildRect)
+                        figures.Add(rectangle);
                     Mode = EditorMode.None;
                     break;
             }
             Cursor = Cursors.Default;
+            Invalidate();
+        }
+
+        /// <summary>
+        /// Переход в режим рисования прямоугольника
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsmiBeginRectangle_Click(object sender, EventArgs e)
+        {
+            rectangle = new Rect();
+            Mode = EditorMode.BuildRect;
             Invalidate();
         }
     }

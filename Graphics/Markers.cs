@@ -165,5 +165,10 @@ namespace Graphics
             Selected = null;
             markers.Clear();
         }
+
+        /// <summary>
+        /// Возврат количества накопленных маркеров
+        /// </summary>
+        public int Count { get => markers.Count; }
     }
 }
