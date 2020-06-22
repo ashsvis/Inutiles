@@ -16,7 +16,7 @@ namespace Graphics
         /// <summary>
         /// Размер маркера в пискелях
         /// </summary>
-        public SizeF Size { get => new SizeF(4, 4); }
+        public SizeF Size { get => new SizeF(6, 6); }
 
         /// <summary>
         /// Прямоугольник с положением и размерами маркера

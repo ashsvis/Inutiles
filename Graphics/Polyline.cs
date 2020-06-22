@@ -38,9 +38,13 @@ namespace Graphics
             {
                 // добавляем в путь контур полилинии
                 path.AddLines(markers.Select(x => x.Location).ToArray());
+                path.AddRectangles(markers.Select(x => x.Bounds).ToArray());
                 // ширина линии для поиска попадания равна размеру маркера
-                using (var pen = new Pen(Color.Black, 4f))
+                using (var pen = new Pen(Color.Black, 5f))
                 {
+                    pen.LineJoin = LineJoin.Round;
+                    pen.StartCap = LineCap.RoundAnchor;
+                    pen.EndCap = LineCap.RoundAnchor;
                     return path.IsOutlineVisible(mousePosition, pen);
                 }
             }
