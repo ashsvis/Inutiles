@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -58,6 +59,16 @@ namespace Graphics
         }
 
         /// <summary>
+        /// Метод подключения перегрузок для проверки попадания на фигуру
+        /// </summary>
+        /// <param name="mousePosition"></param>
+        /// <returns></returns>
+        public virtual bool Contained(Point mousePosition)
+        {
+            return false;
+        }
+
+        /// <summary>
         /// Выдаем признак существования маркера в указанной точке
         /// </summary>
         /// <param name="mousePosition"></param>
@@ -106,6 +117,17 @@ namespace Graphics
             {
                 marker.Location = location;
             }
+        }
+
+        /// <summary>
+        /// Заполнение внешнего списка данными о внутренних маркерах
+        /// </summary>
+        /// <param name="markers"></param>
+        public void Fill(Markers markers)
+        {
+            markers.Clear();
+            foreach (var marker in this.markers)
+                markers.Add(marker);
         }
 
         /// <summary>

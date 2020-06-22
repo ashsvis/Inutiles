@@ -1,4 +1,5 @@
 ﻿using System.Drawing;
+using System.Drawing.Drawing2D;
 using System.Linq;
 
 namespace Graphics
@@ -26,5 +27,23 @@ namespace Graphics
             graphics.DrawLine(pen ?? Pens.Magenta, markers.Last().Location, mousePosition);
         }
 
+        /// <summary>
+        /// Определяем попадание точки на контур фигуры
+        /// </summary>
+        /// <param name="mousePosition"></param>
+        /// <returns></returns>
+        public override bool Contained(Point mousePosition)
+        {
+            using (var path = new GraphicsPath())
+            {
+                // добавляем в путь контур полилинии
+                path.AddLines(markers.Select(x => x.Location).ToArray());
+                // ширина линии для поиска попадания равна размеру маркера
+                using (var pen = new Pen(Color.Black, 4f))
+                {
+                    return path.IsOutlineVisible(mousePosition, pen);
+                }
+            }
+        }
     }
 }

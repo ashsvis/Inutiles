@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Drawing;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace Graphics
@@ -95,9 +96,20 @@ namespace Graphics
         /// <param name="e"></param>
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
-            if (Mode == EditorMode.BuildLine)
+            switch (Mode)
             {
-                polyline.Add(e.Location);
+                case EditorMode.BuildLine:
+                    polyline.Add(e.Location);
+                    break;
+                default:
+                    // ищем попадание указателя на фигуру
+                    var fig = figures.LastOrDefault(x => x.Contained(e.Location));
+                    if (fig != null)
+                        fig.Fill(markers); // в случае успеха заполняем список маркеров данными о маркерах фигуры
+                    else
+                        markers.Clear();   // в случае неудачи очищаем список активных маркеров редактора
+                    Invalidate();
+                    break;
             }
 
             // передаём информацию о нажатии кнопки указателя
