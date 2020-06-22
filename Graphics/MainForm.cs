@@ -69,6 +69,14 @@ namespace Graphics
         /// <param name="e"></param>
         private void cmsPopup_Opening(object sender, CancelEventArgs e)
         {
+            if (Mode == EditorMode.BuildLine)
+            {
+                figures.Add(polyline);
+                Mode = EditorMode.None;
+                Cursor = Cursors.Default;
+                e.Cancel = true;
+                return;
+            }
             // запоминаем позицию курсора в координатах поверхности щелчка
             mousePosition = PointToClient(MousePosition);
             // делаем видимым пункт контекстного меню, если в точке вызова меню есть маркер
@@ -98,7 +106,8 @@ namespace Graphics
             switch (Mode)
             {
                 case EditorMode.BuildLine:
-                    polyline.Add(e.Location);
+                    if (e.Button == MouseButtons.Left)
+                        polyline.Add(e.Location);
                     break;
                 default:
                     // ищем попадание указателя на фигуру
