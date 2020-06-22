@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.757
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sorting", "Sorting\Sorting.csproj", "{15A7F7CD-BA17-49D3-BD58-C513D1A1B6BB}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Graphics", "Graphics\Graphics.csproj", "{B67F1213-ECAF-4AAD-9531-2AACA4D34523}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{15A7F7CD-BA17-49D3-BD58-C513D1A1B6BB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{15A7F7CD-BA17-49D3-BD58-C513D1A1B6BB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{15A7F7CD-BA17-49D3-BD58-C513D1A1B6BB}.Release|Any CPU.Build.0 = Release|Any CPU
+		{B67F1213-ECAF-4AAD-9531-2AACA4D34523}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B67F1213-ECAF-4AAD-9531-2AACA4D34523}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B67F1213-ECAF-4AAD-9531-2AACA4D34523}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B67F1213-ECAF-4AAD-9531-2AACA4D34523}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
