@@ -37,7 +37,7 @@ namespace Graphics
         {
             // рисуем все фигуры
             foreach (var fig in figures)
-                fig.Draw(e.Graphics);
+                fig.Draw(e.Graphics, Pens.Black);
 
             // рисуем все запомненные маркеры
             markers.Draw(e.Graphics);

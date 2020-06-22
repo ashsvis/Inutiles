@@ -51,10 +51,10 @@ namespace Graphics
         /// Рисуем все маркеры из коллекции
         /// </summary>
         /// <param name="graphics"></param>
-        public virtual void Draw(System.Drawing.Graphics graphics)
+        public virtual void Draw(System.Drawing.Graphics graphics, Pen pen = null)
         {
             foreach (var marker in markers)
-                graphics.DrawRectangles(Pens.Magenta, new[] { marker.Bounds });
+                graphics.DrawRectangles(pen ?? Pens.Magenta, new[] { marker.Bounds });
         }
 
         /// <summary>
