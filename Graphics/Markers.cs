@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Drawing;
 using System.Windows.Forms;
+using System;
 
 namespace Graphics
 {
@@ -55,6 +56,22 @@ namespace Graphics
         {
             foreach (var marker in markers)
                 graphics.DrawRectangles(Pens.Magenta, new[] { marker.Bounds });
+        }
+
+        /// <summary>
+        /// Рисуем линию через все точки
+        /// </summary>
+        /// <param name="graphics"></param>
+        public void DrawFigure(System.Drawing.Graphics graphics)
+        {
+            if (markers.Count < 2) return;
+            graphics.DrawLines(Pens.DarkMagenta, markers.Select(x => x.Location).ToArray());
+        }
+
+        public void DrawRibbonLine(System.Drawing.Graphics graphics, Point mousePosition)
+        {
+            if (markers.Count < 1) return;
+            graphics.DrawLine(Pens.Magenta, markers.Last().Location, mousePosition);
         }
 
         /// <summary>
@@ -117,6 +134,14 @@ namespace Graphics
         {
             if (downed)
                 downed = false;
+        }
+
+        /// <summary>
+        /// Очистка содержимого внутреннего списка
+        /// </summary>
+        public void Clear()
+        {
+            markers.Clear();
         }
     }
 
