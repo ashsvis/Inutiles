@@ -45,7 +45,7 @@ namespace Graphics
         /// <param name="e"></param>
         private void tsmiAddMarker_Click(object sender, EventArgs e)
         {            
-            // добавим маркер в позиции курсора, запомненной при открытии контекстного меню
+            // добавляем маркер в позиции курсора, запомненной при открытии контекстного меню
             markers.Add(mousePosition);
             // просим обносить содержимое формы
             Invalidate();
@@ -60,6 +60,21 @@ namespace Graphics
         {
             // запоминаем позицию курсора в координатах поверхности щелчка
             mousePosition = PointToClient(MousePosition);
+            // делаем видимым пункт контекстного меню, если в точке вызова меню есть маркер
+            tsmiRemoveMarker.Visible = markers.MarkerExists(mousePosition);
+        }
+
+        /// <summary>
+        /// Обработчик удаления маркера
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tsmiRemoveMarker_Click(object sender, EventArgs e)
+        {
+            // удаляем маркер в позиции курсора, запомненной при открытии контекстного меню
+            markers.Remove(mousePosition);
+            // просим обносить содержимое формы
+            Invalidate();
         }
     }
 }

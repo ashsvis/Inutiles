@@ -31,15 +31,17 @@
             this.components = new System.ComponentModel.Container();
             this.cmsPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.tsmiAddMarker = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiRemoveMarker = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsPopup.SuspendLayout();
             this.SuspendLayout();
             // 
             // cmsPopup
             // 
             this.cmsPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.tsmiRemoveMarker,
             this.tsmiAddMarker});
             this.cmsPopup.Name = "cmsPopup";
-            this.cmsPopup.Size = new System.Drawing.Size(181, 48);
+            this.cmsPopup.Size = new System.Drawing.Size(181, 70);
             this.cmsPopup.Opening += new System.ComponentModel.CancelEventHandler(this.cmsPopup_Opening);
             // 
             // tsmiAddMarker
@@ -48,6 +50,14 @@
             this.tsmiAddMarker.Size = new System.Drawing.Size(180, 22);
             this.tsmiAddMarker.Text = "Добавить маркер";
             this.tsmiAddMarker.Click += new System.EventHandler(this.tsmiAddMarker_Click);
+            // 
+            // tsmiRemoveMarker
+            // 
+            this.tsmiRemoveMarker.Name = "tsmiRemoveMarker";
+            this.tsmiRemoveMarker.Size = new System.Drawing.Size(180, 22);
+            this.tsmiRemoveMarker.Text = "Удалить маркер";
+            this.tsmiRemoveMarker.Visible = false;
+            this.tsmiRemoveMarker.Click += new System.EventHandler(this.tsmiRemoveMarker_Click);
             // 
             // MainForm
             // 
@@ -68,6 +78,7 @@
 
         private System.Windows.Forms.ContextMenuStrip cmsPopup;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddMarker;
+        private System.Windows.Forms.ToolStripMenuItem tsmiRemoveMarker;
     }
 }
 
