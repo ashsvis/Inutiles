@@ -1,6 +1,7 @@
 ﻿using System.Linq;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Windows.Forms;
 
 namespace Graphics
 {
@@ -53,7 +54,7 @@ namespace Graphics
         public void DrawMarkers(System.Drawing.Graphics graphics)
         {
             foreach (var marker in markers)
-                graphics.DrawRectangles(Pens.Blue, new[] { marker.Bounds });
+                graphics.DrawRectangles(Pens.Magenta, new[] { marker.Bounds });
         }
 
         /// <summary>
@@ -64,6 +65,30 @@ namespace Graphics
         public bool MarkerExists(Point mousePosition)
         {
             return markers.Exists(x => x.Bounds.Contains(mousePosition.X, mousePosition.Y));
+        }
+
+        private Marker marker = null;
+        private bool downed = false;
+
+        public void MouseDown(Point location, Keys modifierKeys)
+        {
+            marker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
+            if (marker != null)
+                downed = true;
+        }
+
+        public void MouseMove(Point location, Keys modifierKeys)
+        {
+            if (downed && marker != null)
+            {
+                marker.Location = location;
+            }
+        }
+
+        public void MouseUp(Point location, Keys modifierKeys)
+        {
+            if (downed)
+                downed = false;
         }
     }
 
@@ -80,7 +105,7 @@ namespace Graphics
         /// <summary>
         /// Размер маркера в пискелях
         /// </summary>
-        public SizeF Size { get => new SizeF(6, 6); }
+        public SizeF Size { get => new SizeF(4, 4); }
 
         /// <summary>
         /// Прямоугольник с положением и размерами маркера

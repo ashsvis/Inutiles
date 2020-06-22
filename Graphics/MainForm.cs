@@ -1,11 +1,6 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Graphics
@@ -25,6 +20,7 @@ namespace Graphics
         public MainForm()
         {
             InitializeComponent();
+            DoubleBuffered = true;
         }
 
         /// <summary>
@@ -47,7 +43,7 @@ namespace Graphics
         {            
             // добавляем маркер в позиции курсора, запомненной при открытии контекстного меню
             markers.Add(mousePosition);
-            // просим обносить содержимое формы
+            // обновление содержимое формы
             Invalidate();
         }
 
@@ -73,7 +69,29 @@ namespace Graphics
         {
             // удаляем маркер в позиции курсора, запомненной при открытии контекстного меню
             markers.Remove(mousePosition);
-            // просим обносить содержимое формы
+            // обновление содержимое формы
+            Invalidate();
+        }
+
+        private void MainForm_MouseDown(object sender, MouseEventArgs e)
+        {
+            markers.MouseDown(e.Location, ModifierKeys);
+            // обновление содержимое формы
+            Invalidate();
+        }
+
+        private void MainForm_MouseMove(object sender, MouseEventArgs e)
+        {
+            Cursor = markers.MarkerExists(e.Location) ? Cursors.Hand : Cursors.Default; ;
+
+            markers.MouseMove(e.Location, ModifierKeys);
+            // обновление содержимое формы
+            Invalidate();
+        }
+
+        private void MainForm_MouseUp(object sender, MouseEventArgs e)
+        {
+            markers.MouseUp(e.Location, ModifierKeys);
             Invalidate();
         }
     }

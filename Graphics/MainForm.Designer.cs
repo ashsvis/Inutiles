@@ -41,7 +41,7 @@
             this.tsmiRemoveMarker,
             this.tsmiAddMarker});
             this.cmsPopup.Name = "cmsPopup";
-            this.cmsPopup.Size = new System.Drawing.Size(181, 70);
+            this.cmsPopup.Size = new System.Drawing.Size(171, 48);
             this.cmsPopup.Opening += new System.ComponentModel.CancelEventHandler(this.cmsPopup_Opening);
             // 
             // tsmiAddMarker
@@ -69,6 +69,9 @@
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Графика";
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
+            this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
+            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
+            this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
             this.cmsPopup.ResumeLayout(false);
             this.ResumeLayout(false);
 
