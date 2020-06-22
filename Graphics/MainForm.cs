@@ -43,7 +43,7 @@ namespace Graphics
         {            
             // добавляем маркер в позиции курсора, запомненной при открытии контекстного меню
             markers.Add(mousePosition);
-            // обновление содержимое формы
+            // обновление содержимого формы
             Invalidate();
         }
 
@@ -69,29 +69,43 @@ namespace Graphics
         {
             // удаляем маркер в позиции курсора, запомненной при открытии контекстного меню
             markers.Remove(mousePosition);
-            // обновление содержимое формы
+            // обновление содержимого формы
             Invalidate();
         }
 
+        /// <summary>
+        /// Обработчик нажатия кнопки указателя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
+            // передаём информацию о нажатии кнопки указателя
             markers.MouseDown(e.Location, ModifierKeys);
-            // обновление содержимое формы
+            // обновление содержимого формы
             Invalidate();
         }
 
+        /// <summary>
+        /// Обработчик перемещения указателя
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainForm_MouseMove(object sender, MouseEventArgs e)
         {
-            Cursor = markers.MarkerExists(e.Location) ? Cursors.Hand : Cursors.Default; ;
-
+            // показываем курсор маркера
+            Cursor = markers.MarkerCursor(e.Location, ModifierKeys);
+            // передаём информацию о перемещении указателя
             markers.MouseMove(e.Location, ModifierKeys);
-            // обновление содержимое формы
+            // обновление содержимого формы
             Invalidate();
         }
 
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
+            // передаём информацию об отпускании кнопки указателя
             markers.MouseUp(e.Location, ModifierKeys);
+            // обновление содержимого формы
             Invalidate();
         }
     }

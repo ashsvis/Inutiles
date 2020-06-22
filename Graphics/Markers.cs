@@ -67,9 +67,27 @@ namespace Graphics
             return markers.Exists(x => x.Bounds.Contains(mousePosition.X, mousePosition.Y));
         }
 
+        /// <summary>
+        /// Выдаем вид курсора маркера, если есть
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
+        /// <returns></returns>
+        public Cursor MarkerCursor(Point location, Keys modifierKeys)
+        {
+            var marker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
+            if (marker == null) return Cursors.Default;
+            return marker.Cursor;
+        }
+
         private Marker marker = null;
         private bool downed = false;
 
+        /// <summary>
+        /// Обработка нажатия кнопки для указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
         public void MouseDown(Point location, Keys modifierKeys)
         {
             marker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
@@ -77,6 +95,11 @@ namespace Graphics
                 downed = true;
         }
 
+        /// <summary>
+        /// Обработка перемещения указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
         public void MouseMove(Point location, Keys modifierKeys)
         {
             if (downed && marker != null)
@@ -85,6 +108,11 @@ namespace Graphics
             }
         }
 
+        /// <summary>
+        /// Обработка отпускания кнопки указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
         public void MouseUp(Point location, Keys modifierKeys)
         {
             if (downed)
@@ -111,5 +139,10 @@ namespace Graphics
         /// Прямоугольник с положением и размерами маркера
         /// </summary>
         public RectangleF Bounds => new RectangleF(PointF.Subtract(Location, new SizeF(Size.Width / 2, Size.Height / 2)), Size);
+
+        /// <summary>
+        /// Курсор маркера перегружаемый
+        /// </summary>
+        public virtual Cursor Cursor { get => Cursors.Hand; }
     }
 }
