@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
@@ -112,6 +111,7 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public override void MouseMove(Point location, Keys modifierKeys)
         {
+            base.MouseMove(location, modifierKeys);
             // пересчёт маркеров
             if (currentMarker == null) return;
             if (!currentMarker.IsMoved()) return;
@@ -126,7 +126,6 @@ namespace Graphics
                     markers[1].Location = new PointF(markers[1].Location.X, currentMarker.Location.Y);
                     break;
             }
-            base.MouseMove(location, modifierKeys);
         }
 
         /// <summary>
