@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Windows.Forms;
 
 namespace Graphics
@@ -8,10 +9,35 @@ namespace Graphics
     /// </summary>
     public class Marker
     {
+        private PointF location;
+
         /// <summary>
         /// Позиция маркера (его центральная точка)
         /// </summary>
-        public PointF Location { get; internal set; }
+        public PointF Location
+        {
+            get => location;
+            internal set
+            {
+                Prev = location;
+                location = value;
+            }
+        }
+
+        /// <summary>
+        /// Предыдущая позиция маркера (его центральная точка)
+        /// </summary>
+        public PointF Prev { get; internal set; }
+
+        /// <summary>
+        /// Маркер двигался
+        /// </summary>
+        /// <returns></returns>
+        internal bool IsMoved()
+        {
+            return Math.Abs(Prev.X - location.X) >= 0.0001f ||
+                Math.Abs(Prev.Y - location.Y) >= 0.0001f;
+        }
 
         /// <summary>
         /// Размер маркера в пискелях
@@ -27,5 +53,18 @@ namespace Graphics
         /// Курсор маркера перегружаемый
         /// </summary>
         public virtual Cursor Cursor { get => Cursors.Hand; }
+
+        public MarkerKind Kind { get; set; } = MarkerKind.Node;
+    }
+
+    public enum MarkerKind
+    {
+        Node,
+        Location,
+        SizeAll,
+        SizeNE,
+        SizeSW,
+        SizeNW,
+        SizeSE
     }
 }

@@ -70,6 +70,33 @@ namespace Graphics
         }
 
         /// <summary>
+        /// Добавляем ранее созданный маркер
+        /// </summary>
+        /// <param name="marker"></param>
+        public override void Add(Marker marker)
+        {
+            switch (markers.Count)
+            {
+                case 0:
+                    marker.Kind = MarkerKind.SizeNW;
+                    break;
+                case 1:
+                    marker.Kind = MarkerKind.SizeSE;
+                    break;
+                case 2:
+                    marker.Kind = MarkerKind.SizeNE;
+                    break;
+                case 3:
+                    marker.Kind = MarkerKind.SizeSW;
+                    break;
+                default:
+                    marker.Kind = MarkerKind.Node;
+                    break;
+            }
+            markers.Add(marker);
+        }
+
+        /// <summary>
         /// Удаляем ранее созданный маркер
         /// </summary>
         /// <param name="marker"></param>
@@ -86,9 +113,13 @@ namespace Graphics
         public override void MouseMove(Point location, Keys modifierKeys)
         {
             // пересчёт маркеров
-            var m = new List<Marker>(markers.Take(2));
-            markers.Clear();
-            markers.AddRange(m);
+            if (currentMarker == null) return;
+            if (!currentMarker.IsMoved()) return;
+            switch (currentMarker.Kind)
+            {
+                case MarkerKind.SizeNE:
+                    break;
+            }
         }
 
         /// <summary>

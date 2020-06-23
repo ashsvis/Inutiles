@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
 using System.Windows.Forms;
@@ -14,9 +13,12 @@ namespace Graphics
         /// Добавляем ранее созданный маркер
         /// </summary>
         /// <param name="marker"></param>
-        public void Add(Marker marker)
+        public virtual void Add(Marker marker)
         {
-            markers.Add(marker);
+            if (Selected != null)
+                Selected.Add(marker);
+            else
+                markers.Add(marker);
         }
 
         /// <summary>
@@ -25,7 +27,7 @@ namespace Graphics
         /// <param name="point"></param>
         public void Add(PointF point)
         {
-            Add(new Marker() { Location = point });
+            Add(new Marker() { Location = point, Prev = point });
         }
 
         /// <summary>
@@ -58,8 +60,9 @@ namespace Graphics
         /// <param name="graphics"></param>
         public virtual void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
+            // если кнопка указателя нажата, ничего не рисуем
             if (downed) return;
-            // если ссылка на выбрануюу фигуру существует, то
+            // если ссылка на выбранную фигуру существует, то
             var markers = Selected != null ? Selected.markers : this.markers;
             // будем рисовать маркеры выбранной фигуры, а иначе - свои собственные
             foreach (var marker in markers)
@@ -104,7 +107,7 @@ namespace Graphics
             return marker.Cursor;
         }
 
-        private Marker marker = null;
+        protected Marker currentMarker = null;
         private bool downed = false;
 
         /// <summary>
@@ -114,8 +117,8 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public void MouseDown(Point location, Keys modifierKeys)
         {
-            marker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
-            if (marker != null)
+            currentMarker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
+            if (currentMarker != null)
                 downed = true;
         }
 
@@ -126,9 +129,9 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public virtual void MouseMove(Point location, Keys modifierKeys)
         {
-            if (downed && marker != null)
+            if (downed && currentMarker != null)
             {
-                marker.Location = location;
+                currentMarker.Location = location;
                 if (Selected != null)
                     Selected.MouseMove(location, modifierKeys);
             }

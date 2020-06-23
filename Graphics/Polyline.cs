@@ -51,6 +51,16 @@ namespace Graphics
         }
 
         /// <summary>
+        /// Добавляем ранее созданный маркер
+        /// </summary>
+        /// <param name="marker"></param>
+        public override void Add(Marker marker)
+        {
+            marker.Kind = MarkerKind.Node;
+            markers.Add(marker);
+        }
+
+        /// <summary>
         /// Удаляем ранее созданный маркер
         /// </summary>
         /// <param name="marker"></param>
