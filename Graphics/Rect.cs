@@ -118,6 +118,12 @@ namespace Graphics
             switch (currentMarker.Kind)
             {
                 case MarkerKind.SizeNE:
+                    markers[0].Location = new PointF(markers[0].Location.X, currentMarker.Location.Y);
+                    markers[1].Location = new PointF(currentMarker.Location.X, markers[1].Location.Y);
+                    break;
+                case MarkerKind.SizeSW:
+                    markers[0].Location = new PointF(currentMarker.Location.X, markers[0].Location.Y);
+                    markers[1].Location = new PointF(markers[1].Location.X, currentMarker.Location.Y);
                     break;
             }
             base.MouseMove(location, modifierKeys);
@@ -134,10 +140,13 @@ namespace Graphics
             // пересчёт маркеров
             var rect = GetRectangle();
             markers.Clear();
-            markers.Add(new Marker { Location = rect.Location });
-            markers.Add(new Marker { Location = new PointF(rect.Location.X + rect.Width, rect.Location.Y + rect.Height) });
-            markers.Add(new Marker { Location = new PointF(rect.Location.X + rect.Width, rect.Location.Y) });
-            markers.Add(new Marker { Location = new PointF(rect.Location.X, rect.Location.Y + rect.Height) });
+            markers.Add(new Marker { Location = rect.Location, Prev = rect.Location, Kind = MarkerKind.SizeNW });
+            var ptSE = new PointF(rect.Location.X + rect.Width, rect.Location.Y + rect.Height);
+            markers.Add(new Marker { Location = ptSE, Prev = ptSE, Kind = MarkerKind.SizeSE });
+            var ptNE = new PointF(rect.Location.X + rect.Width, rect.Location.Y);
+            markers.Add(new Marker { Location = ptNE, Prev = ptNE, Kind = MarkerKind.SizeNE });
+            var ptSW = new PointF(rect.Location.X, rect.Location.Y + rect.Height);
+            markers.Add(new Marker { Location = ptSW, Prev = ptSW, Kind = MarkerKind.SizeSW });
         }
     }
 }
