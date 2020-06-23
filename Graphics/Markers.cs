@@ -5,7 +5,7 @@ using System.Windows.Forms;
 
 namespace Graphics
 {
-    public class Markers
+    public abstract class Markers
     {
         protected List<Marker> markers = new List<Marker>();
 
@@ -15,10 +15,7 @@ namespace Graphics
         /// <param name="marker"></param>
         public virtual void Add(Marker marker)
         {
-            if (Selected != null)
-                Selected.Add(marker);
-            else
-                markers.Add(marker);
+            markers.Add(marker);
         }
 
         /// <summary>
@@ -37,10 +34,7 @@ namespace Graphics
         public virtual void Remove(Marker marker)
         {
             // при удалении маркера из списка - пытаемся удалить маркер выбранной фигуры
-            if (Selected != null)
-                Selected.Remove(marker);
-            else
-                markers.Remove(marker);
+            markers.Remove(marker);
         }
 
         /// <summary>
@@ -58,31 +52,26 @@ namespace Graphics
         /// Рисуем все маркеры из коллекции
         /// </summary>
         /// <param name="graphics"></param>
-        public virtual void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
+        public void DrawMarkers(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
             // если кнопка указателя нажата, ничего не рисуем
             if (downed) return;
-            // если ссылка на выбранную фигуру существует, то
-            var markers = Selected != null ? Selected.markers : this.markers;
-            // будем рисовать маркеры выбранной фигуры, а иначе - свои собственные
             foreach (var marker in markers)
                 graphics.DrawRectangles(pen ?? Pens.Magenta, new[] { marker.Bounds });
         }
 
         /// <summary>
-        /// Ссылка на текущую выбранную фигуру
+        /// Рисуем все маркеры из коллекции
         /// </summary>
-        public Markers Selected { get; set; }
+        /// <param name="graphics"></param>
+        public abstract void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null);
 
         /// <summary>
         /// Метод подключения перегрузок для проверки попадания на фигуру
         /// </summary>
         /// <param name="mousePosition"></param>
         /// <returns></returns>
-        public virtual bool Contained(Point mousePosition)
-        {
-            return false;
-        }
+        public abstract bool Contained(Point mousePosition);
 
         /// <summary>
         /// Выдаем признак существования маркера в указанной точке
@@ -132,8 +121,6 @@ namespace Graphics
             if (downed && currentMarker != null)
             {
                 currentMarker.Location = location;
-                if (Selected != null)
-                    Selected.MouseMove(location, modifierKeys);
             }
         }
 
@@ -147,8 +134,6 @@ namespace Graphics
             if (downed)
             {
                 downed = false;
-                if (Selected != null)
-                    Selected.MouseUp(location, modifierKeys);
             }
         }
 
@@ -162,8 +147,6 @@ namespace Graphics
             // передаём все ссылки на маркеры
             foreach (var marker in this.markers)
                 markers.Add(marker);
-            // при передаче маркеров также передаётся ссылка на самое себя
-            markers.Selected = this;
         }
 
         /// <summary>
@@ -171,8 +154,6 @@ namespace Graphics
         /// </summary>
         public void Clear()
         {
-            // при очистке ссылку не выбранную фигуру также очищаем
-            Selected = null;
             markers.Clear();
         }
 

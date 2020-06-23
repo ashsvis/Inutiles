@@ -120,6 +120,7 @@ namespace Graphics
                 case MarkerKind.SizeNE:
                     break;
             }
+            base.MouseMove(location, modifierKeys);
         }
 
         /// <summary>
@@ -129,6 +130,7 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public override void MouseUp(Point location, Keys modifierKeys)
         {
+            base.MouseUp(location, modifierKeys);
             // пересчёт маркеров
             var rect = GetRectangle();
             markers.Clear();

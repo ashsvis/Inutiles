@@ -17,7 +17,8 @@ namespace Graphics
         /// <summary>
         /// Перечень маркеров
         /// </summary>
-        private Markers markers = new Markers();
+        ///private Markers markers = new Markers();
+        public Markers Selected;
 
         private List<Markers> figures = new List<Markers>();
 
@@ -42,7 +43,7 @@ namespace Graphics
             foreach (var fig in figures)
                 fig.Draw(e.Graphics, Pens.Black);
             // рисуем все запомненные маркеры
-            markers.Draw(e.Graphics);
+            Selected?.DrawMarkers(e.Graphics);
 
             if (Mode == EditorMode.BuildLine)
             {
@@ -64,7 +65,7 @@ namespace Graphics
         private void tsmiAddMarker_Click(object sender, EventArgs e)
         {            
             // добавляем маркер в позиции курсора, запомненной при открытии контекстного меню
-            markers.Add(mousePosition);
+            ///markers.Add(mousePosition);
             // обновление содержимого формы
             Invalidate();
         }
@@ -80,7 +81,7 @@ namespace Graphics
             {
                 case EditorMode.BuildLine:
                     figures.Add(polyline);
-                    polyline.Fill(markers);
+                    Selected = polyline;
                     Mode = EditorMode.None;
                     Cursor = Cursors.Default;
                     e.Cancel = true;
@@ -89,7 +90,7 @@ namespace Graphics
             // запоминаем позицию курсора в координатах поверхности щелчка
             mousePosition = PointToClient(MousePosition);
             // делаем видимым пункт контекстного меню, если в точке вызова меню есть маркер
-            tsmiRemoveMarker.Visible = markers.MarkerExists(mousePosition);
+            tsmiRemoveMarker.Visible = Selected != null ? Selected.MarkerExists(mousePosition) : false;
         }
 
         /// <summary>
@@ -100,7 +101,7 @@ namespace Graphics
         private void tsmiRemoveMarker_Click(object sender, EventArgs e)
         {
             // удаляем маркер в позиции курсора, запомненной при открытии контекстного меню
-            markers.Remove(mousePosition);
+            Selected?.Remove(mousePosition);
             // обновление содержимого формы
             Invalidate();
         }
@@ -125,7 +126,7 @@ namespace Graphics
                         if (rectangle.Count == 2)
                         {
                             figures.Add(rectangle);
-                            rectangle.Fill(markers);
+                            Selected = rectangle;
                             Mode = EditorMode.None;
                             Cursor = Cursors.Default;
                         }
@@ -134,16 +135,13 @@ namespace Graphics
                 default:
                     // ищем попадание указателя на фигуру
                     var fig = figures.LastOrDefault(x => x.Contained(e.Location));
-                    if (fig != null)
-                        fig.Fill(markers); // в случае успеха заполняем список маркеров данными о маркерах фигуры
-                    else
-                        markers.Clear();   // в случае неудачи очищаем список активных маркеров редактора
+                    Selected = fig;
                     Invalidate();
                     break;
             }
 
             // передаём информацию о нажатии кнопки указателя
-            markers.MouseDown(e.Location, ModifierKeys);
+            Selected?.MouseDown(e.Location, ModifierKeys);
             // обновление содержимого формы
             Invalidate();
         }
@@ -163,11 +161,11 @@ namespace Graphics
                     Cursor = Cursors.Cross;
                     break;
                 default:
-                    Cursor = markers.MarkerCursor(e.Location, ModifierKeys);
+                    Cursor = Selected != null ? Selected.MarkerCursor(e.Location, ModifierKeys) : Cursors.Default;
                     break;
             }
             // передаём информацию о перемещении указателя
-            markers.MouseMove(e.Location, ModifierKeys);
+            Selected?.MouseMove(e.Location, ModifierKeys);
             // обновление содержимого формы
             Invalidate();
         }
@@ -180,7 +178,7 @@ namespace Graphics
         private void MainForm_MouseUp(object sender, MouseEventArgs e)
         {
             // передаём информацию об отпускании кнопки указателя
-            markers.MouseUp(e.Location, ModifierKeys);
+            Selected?.MouseUp(e.Location, ModifierKeys);
             // обновление содержимого формы
             Invalidate();
         }
@@ -223,12 +221,12 @@ namespace Graphics
                     if (Mode == EditorMode.BuildLine)
                     {
                         figures.Add(polyline);
-                        polyline.Fill(markers);
+                        Selected = polyline;
                     }
                     if (Mode == EditorMode.BuildRect)
                     {
                         figures.Add(rectangle);
-                        rectangle.Fill(markers);
+                        Selected = rectangle;
                     }
                     Mode = EditorMode.None;
                     break;
