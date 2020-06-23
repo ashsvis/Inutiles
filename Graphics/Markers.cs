@@ -56,7 +56,7 @@ namespace Graphics
         /// Рисуем все маркеры из коллекции
         /// </summary>
         /// <param name="graphics"></param>
-        public virtual void Draw(System.Drawing.Graphics graphics, Pen pen = null)
+        public virtual void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
             // если ссылка на выбрануюу фигуру существует, то
             var markers = Selected != null ? Selected.markers : this.markers;

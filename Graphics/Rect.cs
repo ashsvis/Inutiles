@@ -11,9 +11,10 @@ namespace Graphics
         /// Рисуем линию через все точки
         /// </summary>
         /// <param name="graphics"></param>
-        public override void Draw(System.Drawing.Graphics graphics, Pen pen = null)
+        public override void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
             if (markers.Count < 2) return;
+            graphics.FillRectangle(brush ?? Brushes.White, GetRectangle());
             graphics.DrawRectangles(pen ?? Pens.DarkMagenta, new[] { GetRectangle() });
         }
 
@@ -61,7 +62,7 @@ namespace Graphics
                     pen.LineJoin = LineJoin.Round;
                     pen.StartCap = LineCap.RoundAnchor;
                     pen.EndCap = LineCap.RoundAnchor;
-                    return path.IsOutlineVisible(mousePosition, pen);
+                    return path.IsVisible(mousePosition) || path.IsOutlineVisible(mousePosition, pen);
                 }
             }
         }

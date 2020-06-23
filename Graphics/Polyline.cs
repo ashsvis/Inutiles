@@ -10,7 +10,7 @@ namespace Graphics
         /// Рисуем линию через все точки
         /// </summary>
         /// <param name="graphics"></param>
-        public override void Draw(System.Drawing.Graphics graphics, Pen pen = null)
+        public override void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
             if (markers.Count < 2) return;
             graphics.DrawLines(pen ?? Pens.DarkMagenta, markers.Select(x => x.Location).ToArray());
