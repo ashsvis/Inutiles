@@ -80,6 +80,7 @@ namespace Graphics
             {
                 case EditorMode.BuildLine:
                     figures.Add(polyline);
+                    polyline.Fill(markers);
                     Mode = EditorMode.None;
                     Cursor = Cursors.Default;
                     e.Cancel = true;
@@ -124,6 +125,7 @@ namespace Graphics
                         if (rectangle.Count == 2)
                         {
                             figures.Add(rectangle);
+                            rectangle.Fill(markers);
                             Mode = EditorMode.None;
                             Cursor = Cursors.Default;
                         }
@@ -219,9 +221,15 @@ namespace Graphics
             {
                 case Keys.Escape:
                     if (Mode == EditorMode.BuildLine)
+                    {
                         figures.Add(polyline);
+                        polyline.Fill(markers);
+                    }
                     if (Mode == EditorMode.BuildRect)
+                    {
                         figures.Add(rectangle);
+                        rectangle.Fill(markers);
+                    }
                     Mode = EditorMode.None;
                     break;
             }
