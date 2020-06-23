@@ -1,7 +1,9 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Graphics
 {
@@ -74,6 +76,35 @@ namespace Graphics
         public override void Remove(Marker marker)
         {
             // удаление маркеров не используется для прямоугольника
+        }
+
+        /// <summary>
+        /// Обработка перемещения указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
+        public override void MouseMove(Point location, Keys modifierKeys)
+        {
+            // пересчёт маркеров
+            var m = new List<Marker>(markers.Take(2));
+            markers.Clear();
+            markers.AddRange(m);
+        }
+
+        /// <summary>
+        /// Обработка отпускания кнопки указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
+        public override void MouseUp(Point location, Keys modifierKeys)
+        {
+            // пересчёт маркеров
+            var rect = GetRectangle();
+            markers.Clear();
+            markers.Add(new Marker { Location = rect.Location });
+            markers.Add(new Marker { Location = new PointF(rect.Location.X + rect.Width, rect.Location.Y + rect.Height) });
+            markers.Add(new Marker { Location = new PointF(rect.Location.X + rect.Width, rect.Location.Y) });
+            markers.Add(new Marker { Location = new PointF(rect.Location.X, rect.Location.Y + rect.Height) });
         }
     }
 }

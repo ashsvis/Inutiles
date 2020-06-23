@@ -58,6 +58,7 @@ namespace Graphics
         /// <param name="graphics"></param>
         public virtual void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
+            if (downed) return;
             // если ссылка на выбрануюу фигуру существует, то
             var markers = Selected != null ? Selected.markers : this.markers;
             // будем рисовать маркеры выбранной фигуры, а иначе - свои собственные
@@ -123,11 +124,28 @@ namespace Graphics
         /// </summary>
         /// <param name="location"></param>
         /// <param name="modifierKeys"></param>
-        public void MouseMove(Point location, Keys modifierKeys)
+        public virtual void MouseMove(Point location, Keys modifierKeys)
         {
             if (downed && marker != null)
             {
                 marker.Location = location;
+                if (Selected != null)
+                    Selected.MouseMove(location, modifierKeys);
+            }
+        }
+
+        /// <summary>
+        /// Обработка отпускания кнопки указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
+        public virtual void MouseUp(Point location, Keys modifierKeys)
+        {
+            if (downed)
+            {
+                downed = false;
+                if (Selected != null)
+                    Selected.MouseUp(location, modifierKeys);
             }
         }
 
@@ -143,17 +161,6 @@ namespace Graphics
                 markers.Add(marker);
             // при передаче маркеров также передаётся ссылка на самое себя
             markers.Selected = this;
-        }
-
-        /// <summary>
-        /// Обработка отпускания кнопки указателя
-        /// </summary>
-        /// <param name="location"></param>
-        /// <param name="modifierKeys"></param>
-        public void MouseUp(Point location, Keys modifierKeys)
-        {
-            if (downed)
-                downed = false;
         }
 
         /// <summary>
