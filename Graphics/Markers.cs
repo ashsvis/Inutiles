@@ -66,6 +66,14 @@ namespace Graphics
         /// <param name="graphics"></param>
         public abstract void Draw(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null);
 
+
+        /// <summary>
+        /// Рисуем "резиновую" фигуру
+        /// </summary>
+        /// <param name="graphics"></param>
+        /// <param name="mousePosition"></param>
+        public abstract void DrawRibbon(System.Drawing.Graphics graphics, Point mousePosition, Pen pen = null);
+
         /// <summary>
         /// Метод подключения перегрузок для проверки попадания на фигуру
         /// </summary>

@@ -15,16 +15,19 @@ namespace Graphics
         public Point mousePosition;
 
         /// <summary>
-        /// Перечень маркеров
+        /// выбранная фигура
         /// </summary>
-        ///private Markers markers = new Markers();
         public Markers Selected;
 
+        /// <summary>
+        /// конструируемая фигура
+        /// </summary>
+        public Markers Builded;
+
+        /// <summary>
+        /// Список добавленных фигур
+        /// </summary>
         private List<Markers> figures = new List<Markers>();
-
-        private Polyline polyline;
-
-        private Rect rectangle;
 
         public MainForm()
         {
@@ -45,15 +48,10 @@ namespace Graphics
             // рисуем все запомненные маркеры
             Selected?.DrawMarkers(e.Graphics);
 
-            if (Mode == EditorMode.BuildLine)
+            if (Mode != EditorMode.None)
             {
-                polyline.Draw(e.Graphics);
-                polyline.DrawRibbonLine(e.Graphics, PointToClient(MousePosition));
-            }
-            if (Mode == EditorMode.BuildRect)
-            {
-                rectangle.Draw(e.Graphics);
-                rectangle.DrawRibbonRect(e.Graphics, PointToClient(MousePosition));
+                Builded.Draw(e.Graphics);
+                Builded.DrawRibbon(e.Graphics, PointToClient(MousePosition));
             }
         }
 
@@ -77,15 +75,14 @@ namespace Graphics
         /// <param name="e"></param>
         private void cmsPopup_Opening(object sender, CancelEventArgs e)
         {
-            switch (Mode)
+            if (Mode == EditorMode.Build && Builded is Polyline)
             {
-                case EditorMode.BuildLine:
-                    figures.Add(polyline);
-                    Selected = polyline;
-                    Mode = EditorMode.None;
-                    Cursor = Cursors.Default;
-                    e.Cancel = true;
-                    return;
+                figures.Add(Builded);
+                Selected = Builded;
+                Mode = EditorMode.None;
+                Cursor = Cursors.Default;
+                e.Cancel = true;
+                return;
             }
             // запоминаем позицию курсора в координатах поверхности щелчка
             mousePosition = PointToClient(MousePosition);
@@ -115,18 +112,14 @@ namespace Graphics
         {
             switch (Mode)
             {
-                case EditorMode.BuildLine:
-                    if (e.Button == MouseButtons.Left)
-                        polyline.Add(e.Location);
-                    break;
-                case EditorMode.BuildRect:
+                case EditorMode.Build:
                     if (e.Button == MouseButtons.Left)
                     {
-                        rectangle.Add(e.Location);
-                        if (rectangle.Count == 2)
+                        Builded.Add(e.Location);
+                        if (Builded is Rect && Builded.Count == 2)
                         {
-                            figures.Add(rectangle);
-                            Selected = rectangle;
+                            figures.Add(Builded);
+                            Selected = Builded;
                             Mode = EditorMode.None;
                             Cursor = Cursors.Default;
                         }
@@ -156,8 +149,7 @@ namespace Graphics
             // показываем курсор маркера
             switch (Mode)
             {
-                case EditorMode.BuildLine:
-                case EditorMode.BuildRect:
+                case EditorMode.Build:
                     Cursor = Cursors.Cross;
                     break;
                 default:
@@ -187,16 +179,15 @@ namespace Graphics
         }
 
         /// <summary>
-        /// Дотупные режимы редактора
+        /// Доступные режимы редактора
         /// </summary>
         enum EditorMode
         {
             None,
-            BuildLine,
-            BuildRect
+            Build
         }
 
-        // теущий режим редактора
+        // текущий режим редактора
         private EditorMode Mode = EditorMode.None;
 
         /// <summary>
@@ -206,8 +197,9 @@ namespace Graphics
         /// <param name="e"></param>
         private void tsmiBeginLine_Click(object sender, EventArgs e)
         {
-            polyline = new Polyline();
-            Mode = EditorMode.BuildLine;
+            Selected = null;
+            Builded = new Polyline();
+            Mode = EditorMode.Build;
             Invalidate();
         }
 
@@ -221,15 +213,10 @@ namespace Graphics
             switch (e.KeyCode)
             {
                 case Keys.Escape:
-                    if (Mode == EditorMode.BuildLine)
+                    if (Mode == EditorMode.Build)
                     {
-                        figures.Add(polyline);
-                        Selected = polyline;
-                    }
-                    if (Mode == EditorMode.BuildRect)
-                    {
-                        figures.Add(rectangle);
-                        Selected = rectangle;
+                        figures.Add(Builded);
+                        Selected = Builded;
                     }
                     Mode = EditorMode.None;
                     break;
@@ -245,8 +232,9 @@ namespace Graphics
         /// <param name="e"></param>
         private void tsmiBeginRectangle_Click(object sender, EventArgs e)
         {
-            rectangle = new Rect();
-            Mode = EditorMode.BuildRect;
+            Selected = null;
+            Builded = new Rect();
+            Mode = EditorMode.Build;
             Invalidate();
         }
     }

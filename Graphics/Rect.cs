@@ -25,7 +25,7 @@ namespace Graphics
         /// <param name="graphics"></param>
         /// <param name="mousePosition"></param>
         /// <param name="pen"></param>
-        public void DrawRibbonRect(System.Drawing.Graphics graphics, Point mousePosition, Pen pen = null)
+        public override void DrawRibbon(System.Drawing.Graphics graphics, Point mousePosition, Pen pen = null)
         {
             if (markers.Count < 1) return;
             graphics.DrawRectangles(pen ?? Pens.Magenta, new[] { GetRectangle(mousePosition) });
