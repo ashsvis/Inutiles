@@ -12,9 +12,12 @@ namespace Graphics
 {
     public partial class SelectFiguresToolForm : Form
     {
-        public SelectFiguresToolForm()
+        private MainForm mainForm;
+
+        public SelectFiguresToolForm(MainForm form)
         {
             InitializeComponent();
+            mainForm = form;
         }
 
         private void SelectFiguresToolForm_Load(object sender, EventArgs e)
@@ -25,6 +28,21 @@ namespace Graphics
         private void SelectFiguresToolForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             e.Cancel = false;
+        }
+
+        private void tsbArrow_Click(object sender, EventArgs e)
+        {
+            mainForm.CancelBegin();
+        }
+
+        private void tsbBuildLine_Click(object sender, EventArgs e)
+        {
+            mainForm.BeginLine();
+        }
+
+        private void tsbBuildRect_Click(object sender, EventArgs e)
+        {
+            mainForm.BeginRectangle();
         }
     }
 }

@@ -35,7 +35,7 @@ namespace Graphics
         {
             InitializeComponent();
             DoubleBuffered = true;
-            SelectFigures = new SelectFiguresToolForm();
+            SelectFigures = new SelectFiguresToolForm(this);
             SelectFigures.Owner = this;
         }
 
@@ -73,7 +73,7 @@ namespace Graphics
             // рисуем все запомненные маркеры
             Selected?.DrawMarkers(e.Graphics);
 
-            if (Mode != EditorMode.None)
+            if (Mode == EditorMode.Build)
             {
                 Builded.Draw(e.Graphics);
                 Builded.DrawRibbon(e.Graphics, PointToClient(MousePosition));
@@ -207,17 +207,8 @@ namespace Graphics
             Invalidate();
         }
 
-        /// <summary>
-        /// Доступные режимы редактора
-        /// </summary>
-        enum EditorMode
-        {
-            None,
-            Build
-        }
-
         // текущий режим редактора
-        private EditorMode Mode = EditorMode.None;
+        private EditorMode Mode { get; set; } = EditorMode.None;
 
         /// <summary>
         /// Переход в режим рисования прямой линии
@@ -225,6 +216,11 @@ namespace Graphics
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void tsmiBeginLine_Click(object sender, EventArgs e)
+        {
+            BeginLine();
+        }
+
+        public void BeginLine()
         {
             Selected = null;
             Builded = new Polyline();
@@ -257,9 +253,21 @@ namespace Graphics
         /// <param name="e"></param>
         private void tsmiBeginRectangle_Click(object sender, EventArgs e)
         {
+            BeginRectangle();
+        }
+
+        public void BeginRectangle()
+        {
             Selected = null;
             Builded = new Rect();
             Mode = EditorMode.Build;
+            Invalidate();
+        }
+
+        public void CancelBegin()
+        {
+            Builded = null;
+            Mode = EditorMode.None;
             Invalidate();
         }
     }
