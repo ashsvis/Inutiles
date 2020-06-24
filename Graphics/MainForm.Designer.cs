@@ -30,9 +30,8 @@
         {
             this.components = new System.ComponentModel.Container();
             this.cmsPopup = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.tsmiAddMarker = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiRemoveMarker = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem1 = new System.Windows.Forms.ToolStripSeparator();
+            this.tsmiAddMarker = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiBeginLine = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiBeginRectangle = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsPopup.SuspendLayout();
@@ -43,19 +42,11 @@
             this.cmsPopup.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.tsmiRemoveMarker,
             this.tsmiAddMarker,
-            this.toolStripMenuItem1,
             this.tsmiBeginLine,
             this.tsmiBeginRectangle});
             this.cmsPopup.Name = "cmsPopup";
-            this.cmsPopup.Size = new System.Drawing.Size(204, 120);
+            this.cmsPopup.Size = new System.Drawing.Size(204, 92);
             this.cmsPopup.Opening += new System.ComponentModel.CancelEventHandler(this.cmsPopup_Opening);
-            // 
-            // tsmiAddMarker
-            // 
-            this.tsmiAddMarker.Name = "tsmiAddMarker";
-            this.tsmiAddMarker.Size = new System.Drawing.Size(203, 22);
-            this.tsmiAddMarker.Text = "Добавить маркер";
-            this.tsmiAddMarker.Click += new System.EventHandler(this.tsmiAddMarker_Click);
             // 
             // tsmiRemoveMarker
             // 
@@ -65,13 +56,17 @@
             this.tsmiRemoveMarker.Visible = false;
             this.tsmiRemoveMarker.Click += new System.EventHandler(this.tsmiRemoveMarker_Click);
             // 
-            // toolStripMenuItem1
+            // tsmiAddMarker
             // 
-            this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(200, 6);
+            this.tsmiAddMarker.Name = "tsmiAddMarker";
+            this.tsmiAddMarker.Size = new System.Drawing.Size(203, 22);
+            this.tsmiAddMarker.Text = "Добавить маркер";
+            this.tsmiAddMarker.Visible = false;
+            this.tsmiAddMarker.Click += new System.EventHandler(this.tsmiAddMarker_Click);
             // 
             // tsmiBeginLine
             // 
+            this.tsmiBeginLine.Image = global::Graphics.Properties.Resources.poliline;
             this.tsmiBeginLine.Name = "tsmiBeginLine";
             this.tsmiBeginLine.Size = new System.Drawing.Size(203, 22);
             this.tsmiBeginLine.Text = "Начать линию";
@@ -79,6 +74,7 @@
             // 
             // tsmiBeginRectangle
             // 
+            this.tsmiBeginRectangle.Image = global::Graphics.Properties.Resources.rect;
             this.tsmiBeginRectangle.Name = "tsmiBeginRectangle";
             this.tsmiBeginRectangle.Size = new System.Drawing.Size(203, 22);
             this.tsmiBeginRectangle.Text = "Начать прямоугольник";
@@ -94,11 +90,14 @@
             this.Name = "MainForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Графика";
+            this.Load += new System.EventHandler(this.MainForm_Load);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.MainForm_Paint);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.MainForm_KeyDown);
             this.MouseDown += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseDown);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseMove);
             this.MouseUp += new System.Windows.Forms.MouseEventHandler(this.MainForm_MouseUp);
+            this.Move += new System.EventHandler(this.MainForm_Move);
+            this.Resize += new System.EventHandler(this.MainForm_Resize);
             this.cmsPopup.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -109,7 +108,6 @@
         private System.Windows.Forms.ContextMenuStrip cmsPopup;
         private System.Windows.Forms.ToolStripMenuItem tsmiAddMarker;
         private System.Windows.Forms.ToolStripMenuItem tsmiRemoveMarker;
-        private System.Windows.Forms.ToolStripSeparator toolStripMenuItem1;
         private System.Windows.Forms.ToolStripMenuItem tsmiBeginLine;
         private System.Windows.Forms.ToolStripMenuItem tsmiBeginRectangle;
     }
