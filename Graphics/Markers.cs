@@ -52,7 +52,7 @@ namespace Graphics
         /// Рисуем все маркеры из коллекции
         /// </summary>
         /// <param name="graphics"></param>
-        public void DrawMarkers(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
+        public virtual void DrawMarkers(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
             // если кнопка указателя нажата, ничего не рисуем
             if (downed) return;

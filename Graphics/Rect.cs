@@ -112,9 +112,12 @@ namespace Graphics
         public override void MouseMove(Point location, Keys modifierKeys)
         {
             base.MouseMove(location, modifierKeys);
+            if (currentMarker == null) return;      // нет выделенного маркера, выходим
+            if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим
             // пересчёт маркеров
-            if (currentMarker == null) return;
-            if (!currentMarker.IsMoved()) return;
+            // первые два опорных маркера (0 и 1) обозначают левый верхний и правый нижний углы прямоугольника
+            // и по ним строится структура прямоугольника. Два других маркера обозначают углы побочной диагонали
+            // прямоугольника и при их перемещении необходимо корректировать положение опорных маркеров.
             switch (currentMarker.Kind)
             {
                 case MarkerKind.SizeNE:

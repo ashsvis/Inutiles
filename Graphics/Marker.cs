@@ -52,9 +52,35 @@ namespace Graphics
         /// <summary>
         /// Курсор маркера перегружаемый
         /// </summary>
-        public virtual Cursor Cursor { get => Cursors.Hand; }
+        public virtual Cursor Cursor { get => GetMarkerCursor(); }
 
+        /// <summary>
+        /// Тип маркера, определяет его назначение в фигуре
+        /// </summary>
         public MarkerKind Kind { get; set; } = MarkerKind.Node;
+
+        /// <summary>
+        /// Метод возвращает вид курсора для этого маркера
+        /// </summary>
+        /// <returns></returns>
+        private Cursor GetMarkerCursor()
+        {
+            switch (Kind)
+            {
+                case MarkerKind.Node:
+                    return Cursors.Hand;
+                case MarkerKind.SizeNE:
+                case MarkerKind.SizeSW:
+                    return Cursors.SizeNESW;
+                case MarkerKind.SizeNW:
+                case MarkerKind.SizeSE:
+                    return Cursors.SizeNWSE;
+                case MarkerKind.SizeAll:
+                    return Cursors.SizeAll;
+                default:
+                    return Cursors.Default;
+            }
+        }
     }
 
     public enum MarkerKind
