@@ -77,17 +77,26 @@ namespace Graphics
         {
             if (Mode == EditorMode.Build && Builded is Polyline)
             {
-                figures.Add(Builded);
-                Selected = Builded;
-                Mode = EditorMode.None;
-                Cursor = Cursors.Default;
+                AddFigure();
                 e.Cancel = true;
                 return;
             }
             // запоминаем позицию курсора в координатах поверхности щелчка
             mousePosition = PointToClient(MousePosition);
             // делаем видимым пункт контекстного меню, если в точке вызова меню есть маркер
-            tsmiRemoveMarker.Visible = Selected != null ? Selected.MarkerExists(mousePosition) : false;
+            tsmiRemoveMarker.Visible = Selected != null && Selected.MarkerExists(mousePosition);
+        }
+
+        /// <summary>
+        /// Добавление фигуры к списку построенных
+        /// </summary>
+        private void AddFigure()
+        {
+            figures.Add(Builded);
+            Selected = Builded;
+            Mode = EditorMode.None;
+            Cursor = Cursors.Default;
+            Builded = null;
         }
 
         /// <summary>
@@ -117,12 +126,7 @@ namespace Graphics
                     {
                         Builded.Add(e.Location);
                         if (Builded is Rect && Builded.Count == 2)
-                        {
-                            figures.Add(Builded);
-                            Selected = Builded;
-                            Mode = EditorMode.None;
-                            Cursor = Cursors.Default;
-                        }
+                            AddFigure();
                     }
                     break;
                 default:
@@ -213,12 +217,8 @@ namespace Graphics
             switch (e.KeyCode)
             {
                 case Keys.Escape:
-                    if (Mode == EditorMode.Build)
-                    {
-                        figures.Add(Builded);
-                        Selected = Builded;
-                    }
-                    Mode = EditorMode.None;
+                    if (Mode == EditorMode.Build && Builded is Polyline)
+                        AddFigure();
                     break;
             }
             Cursor = Cursors.Default;
