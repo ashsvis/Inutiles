@@ -161,7 +161,10 @@ namespace Graphics
                     Cursor = Cursors.Cross;
                     break;
                 default:
-                    Cursor = Selected != null ? Selected.MarkerCursor(e.Location, ModifierKeys) : Cursors.Default;
+                    // ищем "верхнюю" фигуру под курсором
+                    var fig = figures.LastOrDefault(x => x.Contained(e.Location));
+                    // если фигура есть, показываем её курсор, иначе - курсор по умолчанию
+                    Cursor = fig != null ? fig.MarkerCursor(e.Location, ModifierKeys) : Cursors.Default;
                     break;
             }
             // передаём информацию о перемещении указателя

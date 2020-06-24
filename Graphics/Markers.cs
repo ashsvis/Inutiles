@@ -91,8 +91,11 @@ namespace Graphics
         /// <returns></returns>
         public Cursor MarkerCursor(Point location, Keys modifierKeys)
         {
+            // ищем "верхний" маркер
             var marker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
-            if (marker == null) return Cursors.Default;
+            // если не маркер, то тянут за тело фигуры
+            if (marker == null) return Cursors.Hand;
+            // иначе возвращаем курсор маркера
             return marker.Cursor;
         }
 
