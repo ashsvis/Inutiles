@@ -1,6 +1,7 @@
 ﻿using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Linq;
+using System.Windows.Forms;
 
 namespace Graphics
 {
@@ -69,6 +70,24 @@ namespace Graphics
             // если точек меньше трёх, то удаления не будет, так как линия уже не будет существовать
             if (markers.Count < 3) return;
             markers.Remove(marker);
+        }
+
+        /// <summary>
+        /// Обработка перемещения указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
+        public override void MouseMove(Point location, Keys modifierKeys)
+        {
+            base.MouseMove(location, modifierKeys);
+            if (!mouseDowned) return;
+            // нет выделенного маркера, значит, тянут за фигуру
+            if (currentMarker != null) return;
+            if (offsetLocation.IsEmpty) return;
+            // корректируем положение всех маркеров на величину смещения
+            markers.ForEach(x => x.Location = PointF.Add(x.Location, offsetLocation));
+            // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
+            downLocation = location;
         }
     }
 }

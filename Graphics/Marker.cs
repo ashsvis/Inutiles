@@ -68,7 +68,7 @@ namespace Graphics
             switch (Kind)
             {
                 case MarkerKind.Node:
-                    return Cursors.Hand;
+                    return Cursors.Cross;
                 case MarkerKind.SizeNE:
                 case MarkerKind.SizeSW:
                     return Cursors.SizeNESW;

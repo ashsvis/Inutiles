@@ -149,26 +149,6 @@ namespace Graphics
         }
 
         /// <summary>
-        /// Заполнение внешнего списка данными о внутренних маркерах
-        /// </summary>
-        /// <param name="markers"></param>
-        public void Fill(Markers markers)
-        {
-            markers.Clear();
-            // передаём все ссылки на маркеры
-            foreach (var marker in this.markers)
-                markers.Add(marker);
-        }
-
-        /// <summary>
-        /// Очистка содержимого внутреннего списка
-        /// </summary>
-        public void Clear()
-        {
-            markers.Clear();
-        }
-
-        /// <summary>
         /// Возврат количества накопленных маркеров
         /// </summary>
         public int Count { get => markers.Count; }
