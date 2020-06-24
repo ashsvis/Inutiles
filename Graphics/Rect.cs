@@ -76,15 +76,19 @@ namespace Graphics
         {
             switch (markers.Count)
             {
+                // левый верхний угол
                 case 0:
                     marker.Kind = MarkerKind.SizeNW;
                     break;
+                // правый нижний угол
                 case 1:
                     marker.Kind = MarkerKind.SizeSE;
                     break;
+                // правый верхний угол
                 case 2:
                     marker.Kind = MarkerKind.SizeNE;
                     break;
+                // левый нижний угол
                 case 3:
                     marker.Kind = MarkerKind.SizeSW;
                     break;
@@ -112,7 +116,17 @@ namespace Graphics
         public override void MouseMove(Point location, Keys modifierKeys)
         {
             base.MouseMove(location, modifierKeys);
-            if (currentMarker == null) return;      // нет выделенного маркера, выходим
+            if (!mouseDowned) return;
+            // нет выделенного маркера, значит, тянут за фигуру
+            if (currentMarker == null)
+            {
+                if (offsetLocation.IsEmpty) return;
+                // корректируем положение всех маркеров на величину смещения
+                markers.ForEach(x => x.Location = PointF.Add(x.Location, offsetLocation));
+                // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
+                downLocation = location;
+                return; 
+            }
             if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим
             // пересчёт маркеров
             // первые два опорных маркера (0 и 1) обозначают левый верхний и правый нижний углы прямоугольника
@@ -120,10 +134,12 @@ namespace Graphics
             // прямоугольника и при их перемещении необходимо корректировать положение опорных маркеров.
             switch (currentMarker.Kind)
             {
+                // правый верхний угол 
                 case MarkerKind.SizeNE:
                     markers[0].Location = new PointF(markers[0].Location.X, currentMarker.Location.Y);
                     markers[1].Location = new PointF(currentMarker.Location.X, markers[1].Location.Y);
                     break;
+                // левый нижний угол
                 case MarkerKind.SizeSW:
                     markers[0].Location = new PointF(currentMarker.Location.X, markers[0].Location.Y);
                     markers[1].Location = new PointF(markers[1].Location.X, currentMarker.Location.Y);

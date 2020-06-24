@@ -55,7 +55,7 @@ namespace Graphics
         public virtual void DrawMarkers(System.Drawing.Graphics graphics, Pen pen = null, Brush brush = null)
         {
             // если кнопка указателя нажата, ничего не рисуем
-            if (downed) return;
+            if (mouseDowned) return;
             foreach (var marker in markers)
                 graphics.DrawRectangles(pen ?? Pens.Magenta, new[] { marker.Bounds });
         }
@@ -97,7 +97,17 @@ namespace Graphics
         }
 
         protected Marker currentMarker = null;
-        private bool downed = false;
+        protected bool mouseDowned = false;
+        
+        /// <summary>
+        /// Положение указателя при нажатии на кнопку
+        /// </summary>
+        protected Point downLocation = Point.Empty;
+
+        /// <summary>
+        /// Смещение указателя после нажатия на кнопку
+        /// </summary>
+        protected Size offsetLocation = Size.Empty;
 
         /// <summary>
         /// Обработка нажатия кнопки для указателя
@@ -107,8 +117,8 @@ namespace Graphics
         public void MouseDown(Point location, Keys modifierKeys)
         {
             currentMarker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
-            if (currentMarker != null)
-                downed = true;
+            mouseDowned = true;
+            downLocation = location;
         }
 
         /// <summary>
@@ -118,7 +128,8 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public virtual void MouseMove(Point location, Keys modifierKeys)
         {
-            if (downed && currentMarker != null)
+            offsetLocation = new Size(location.X - downLocation.X, location.Y - downLocation.Y);
+            if (mouseDowned && currentMarker != null)
             {
                 currentMarker.Location = location;
             }
@@ -131,9 +142,9 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public virtual void MouseUp(Point location, Keys modifierKeys)
         {
-            if (downed)
+            if (mouseDowned)
             {
-                downed = false;
+                mouseDowned = false;
             }
         }
 
