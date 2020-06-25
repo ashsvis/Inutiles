@@ -47,7 +47,7 @@ namespace Graphics
 
         private void LocationSelectFigures()
         {
-            SelectFigures.Location = new Point(this.Location.X - SelectFigures.Size.Width + 7, this.Location.Y + 31);
+            SelectFigures.Location = new Point(this.Location.X - SelectFigures.Size.Width + 8, this.Location.Y + 29);
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
@@ -122,6 +122,7 @@ namespace Graphics
             Mode = EditorMode.None;
             Cursor = Cursors.Default;
             Builded = null;
+            SelectFigures.Cursor = Cursors.Default;
         }
 
         /// <summary>
@@ -226,6 +227,7 @@ namespace Graphics
             Builded = new Polyline();
             Mode = EditorMode.Build;
             Invalidate();
+            SelectFigures.Cursor = Cursors.Cross;
         }
 
         /// <summary>
@@ -262,6 +264,7 @@ namespace Graphics
             Builded = new Rect();
             Mode = EditorMode.Build;
             Invalidate();
+            SelectFigures.Cursor = Cursors.Cross;
         }
 
         public void CancelBegin()
@@ -269,6 +272,7 @@ namespace Graphics
             Builded = null;
             Mode = EditorMode.None;
             Invalidate();
+            SelectFigures.Cursor = Cursors.Default;
         }
     }
 }

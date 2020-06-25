@@ -1,11 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
 using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Graphics
@@ -22,7 +16,7 @@ namespace Graphics
 
         private void SelectFiguresToolForm_Load(object sender, EventArgs e)
         {
-            Size = new Size(toolStrip1.Width, 100);
+            Size = new Size(22, 24 * 3);
         }
 
         private void SelectFiguresToolForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -30,19 +24,39 @@ namespace Graphics
             e.Cancel = false;
         }
 
-        private void tsbArrow_Click(object sender, EventArgs e)
+        private void SelectFiguresToolForm_Paint(object sender, PaintEventArgs e)
         {
-            mainForm.CancelBegin();
+            var rect = ClientRectangle;
+            rect.Width -= 1;
+            rect.Height -= 1;
+            e.Graphics.DrawRectangle(SystemPens.WindowFrame, rect);
+            rect.Location = new Point(3, 3);
+            rect.Size = new Size(22, 22);
+            e.Graphics.DrawImageUnscaled(Properties.Resources.arrow, rect);
+            rect.Offset(0, 24);
+            e.Graphics.DrawImageUnscaled(Properties.Resources.poliline, rect);
+            rect.Offset(0, 24);
+            e.Graphics.DrawImageUnscaled(Properties.Resources.rect, rect);
         }
 
-        private void tsbBuildLine_Click(object sender, EventArgs e)
+        private void SelectFiguresToolForm_MouseDown(object sender, MouseEventArgs e)
         {
-            mainForm.BeginLine();
-        }
+            var point = e.Location;
+            switch (point.Y / 24)
+            {
+                case 0:
+                    mainForm.CancelBegin();
+                    break;
+                case 1:
+                    Cursor = Cursors.Cross;
+                    mainForm.BeginLine();
+                    break;
+                case 2:
+                    Cursor = Cursors.Cross;
+                    mainForm.BeginRectangle();
+                    break;
+            }
 
-        private void tsbBuildRect_Click(object sender, EventArgs e)
-        {
-            mainForm.BeginRectangle();
         }
     }
 }
