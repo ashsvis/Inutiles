@@ -34,6 +34,8 @@
             this.tsmiAddMarker = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiBeginLine = new System.Windows.Forms.ToolStripMenuItem();
             this.tsmiBeginRectangle = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiLinkToFigure = new System.Windows.Forms.ToolStripMenuItem();
+            this.tsmiUnlinkFromFigure = new System.Windows.Forms.ToolStripMenuItem();
             this.cmsPopup.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -43,15 +45,17 @@
             this.tsmiRemoveMarker,
             this.tsmiAddMarker,
             this.tsmiBeginLine,
-            this.tsmiBeginRectangle});
+            this.tsmiBeginRectangle,
+            this.tsmiLinkToFigure,
+            this.tsmiUnlinkFromFigure});
             this.cmsPopup.Name = "cmsPopup";
-            this.cmsPopup.Size = new System.Drawing.Size(204, 92);
+            this.cmsPopup.Size = new System.Drawing.Size(218, 158);
             this.cmsPopup.Opening += new System.ComponentModel.CancelEventHandler(this.cmsPopup_Opening);
             // 
             // tsmiRemoveMarker
             // 
             this.tsmiRemoveMarker.Name = "tsmiRemoveMarker";
-            this.tsmiRemoveMarker.Size = new System.Drawing.Size(203, 22);
+            this.tsmiRemoveMarker.Size = new System.Drawing.Size(217, 22);
             this.tsmiRemoveMarker.Text = "Удалить маркер";
             this.tsmiRemoveMarker.Visible = false;
             this.tsmiRemoveMarker.Click += new System.EventHandler(this.tsmiRemoveMarker_Click);
@@ -59,7 +63,7 @@
             // tsmiAddMarker
             // 
             this.tsmiAddMarker.Name = "tsmiAddMarker";
-            this.tsmiAddMarker.Size = new System.Drawing.Size(203, 22);
+            this.tsmiAddMarker.Size = new System.Drawing.Size(217, 22);
             this.tsmiAddMarker.Text = "Добавить маркер";
             this.tsmiAddMarker.Visible = false;
             this.tsmiAddMarker.Click += new System.EventHandler(this.tsmiAddMarker_Click);
@@ -68,7 +72,7 @@
             // 
             this.tsmiBeginLine.Image = global::Graphics.Properties.Resources.poliline;
             this.tsmiBeginLine.Name = "tsmiBeginLine";
-            this.tsmiBeginLine.Size = new System.Drawing.Size(203, 22);
+            this.tsmiBeginLine.Size = new System.Drawing.Size(217, 22);
             this.tsmiBeginLine.Text = "Начать линию";
             this.tsmiBeginLine.Click += new System.EventHandler(this.tsmiBeginLine_Click);
             // 
@@ -76,9 +80,23 @@
             // 
             this.tsmiBeginRectangle.Image = global::Graphics.Properties.Resources.rect;
             this.tsmiBeginRectangle.Name = "tsmiBeginRectangle";
-            this.tsmiBeginRectangle.Size = new System.Drawing.Size(203, 22);
+            this.tsmiBeginRectangle.Size = new System.Drawing.Size(217, 22);
             this.tsmiBeginRectangle.Text = "Начать прямоугольник";
             this.tsmiBeginRectangle.Click += new System.EventHandler(this.tsmiBeginRectangle_Click);
+            // 
+            // tsmiLinkToFigure
+            // 
+            this.tsmiLinkToFigure.Name = "tsmiLinkToFigure";
+            this.tsmiLinkToFigure.Size = new System.Drawing.Size(217, 22);
+            this.tsmiLinkToFigure.Text = "Привязать к фигуре...";
+            this.tsmiLinkToFigure.Click += new System.EventHandler(this.tsmiLinkToFigure_Click);
+            // 
+            // tsmiUnlinkFromFigure
+            // 
+            this.tsmiUnlinkFromFigure.Name = "tsmiUnlinkFromFigure";
+            this.tsmiUnlinkFromFigure.Size = new System.Drawing.Size(217, 22);
+            this.tsmiUnlinkFromFigure.Text = "Убрать привязку к фигуре";
+            this.tsmiUnlinkFromFigure.Click += new System.EventHandler(this.tsmiUnlinkFromFigure_Click);
             // 
             // MainForm
             // 
@@ -110,6 +128,8 @@
         private System.Windows.Forms.ToolStripMenuItem tsmiRemoveMarker;
         private System.Windows.Forms.ToolStripMenuItem tsmiBeginLine;
         private System.Windows.Forms.ToolStripMenuItem tsmiBeginRectangle;
+        private System.Windows.Forms.ToolStripMenuItem tsmiLinkToFigure;
+        private System.Windows.Forms.ToolStripMenuItem tsmiUnlinkFromFigure;
     }
 }
 

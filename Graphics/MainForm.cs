@@ -110,6 +110,11 @@ namespace Graphics
             mousePosition = PointToClient(MousePosition);
             // делаем видимым пункт контекстного меню, если в точке вызова меню есть маркер
             tsmiRemoveMarker.Visible = Selected != null && Selected.MarkerExists(mousePosition);
+            tsmiBeginLine.Visible = Selected == null;
+            tsmiBeginRectangle.Visible = Selected == null;
+            // управление видимостью пунктов связи между фигурами
+            tsmiLinkToFigure.Visible = Selected != null && Selected.Parent == null;
+            tsmiUnlinkFromFigure.Visible = Selected != null && Selected.Parent != null;
         }
 
         /// <summary>
@@ -117,14 +122,10 @@ namespace Graphics
         /// </summary>
         private void AddFigure()
         {
-            var parent = figures.LastOrDefault();
-
+            // добавляем новую фигуру в список
             figures.Add(Builded);
             Builded.Name = $"Fig{figures.Count}";
-
-            if (parent != null)
-                parent.Childs.Add(Builded);
-
+            // построенная фигура делается текущей
             Selected = Builded;
             Mode = EditorMode.None;
             Cursor = Cursors.Default;
@@ -152,8 +153,29 @@ namespace Graphics
         /// <param name="e"></param>
         private void MainForm_MouseDown(object sender, MouseEventArgs e)
         {
+            Markers fig;
             switch (Mode)
             {
+                case EditorMode.Link:
+                    if (e.Button == MouseButtons.Left)
+                    {
+                        // ищем фигуру "родителя" под курсором
+                        fig = figures.LastOrDefault(x => x.Contained(e.Location));
+                        // фигура "родителя" должна быть, она не должна быть "сама собой" и она не должна быть в дальних "потомках"
+                        if (fig != null && fig != Selected && !CycleExists(Selected, fig))
+                        {
+                            // убираем связь с прежним "родителем"
+                            Selected.Parent?.Childs.Remove(Selected);
+                            // добавляем связь у "родителя"
+                            fig.Childs.Add(Selected);
+                            // указываем "родителя"
+                            Selected.Parent = fig;
+                            // теперь выбран "родитель"
+                            Selected = fig;
+                        }
+                        CancelBegin();
+                    }
+                    break;
                 case EditorMode.Build:
                     if (e.Button == MouseButtons.Left)
                     {
@@ -164,8 +186,7 @@ namespace Graphics
                     break;
                 default:
                     // ищем попадание указателя на фигуру
-                    var fig = figures.LastOrDefault(x => x.Contained(e.Location));
-                    Selected = fig;
+                    Selected = figures.LastOrDefault(x => x.Contained(e.Location));
                     Invalidate();
                     break;
             }
@@ -175,6 +196,18 @@ namespace Graphics
 
             // обновление содержимого формы
             Invalidate();
+        }
+
+        private bool CycleExists(Markers selected, Markers fig)
+        {
+            if (selected.Childs.Contains(fig))
+                return true;
+            foreach (var child in selected.Childs)
+            {
+                if (CycleExists(child, fig))
+                    return true;
+            }
+            return false;
         }
 
         /// <summary>
@@ -189,6 +222,9 @@ namespace Graphics
             {
                 case EditorMode.Build:
                     Cursor = Cursors.Cross;
+                    break;
+                case EditorMode.Link:
+                    Cursor = Cursors.UpArrow;
                     break;
                 default:
                     // ищем "верхнюю" фигуру под курсором
@@ -229,6 +265,9 @@ namespace Graphics
             BeginLine();
         }
 
+        /// <summary>
+        /// Переход в режим рисования прямой линии
+        /// </summary>
         public void BeginLine()
         {
             Selected = null;
@@ -266,6 +305,9 @@ namespace Graphics
             BeginRectangle();
         }
 
+        /// <summary>
+        /// Переход в режим рисования прямоугольника
+        /// </summary>
         public void BeginRectangle()
         {
             Selected = null;
@@ -275,12 +317,47 @@ namespace Graphics
             SelectFigures.Cursor = Cursors.Cross;
         }
 
+        /// <summary>
+        /// Отмена режимов редактирования
+        /// </summary>
         public void CancelBegin()
         {
             Builded = null;
             Mode = EditorMode.None;
             Invalidate();
             SelectFigures.Cursor = Cursors.Default;
+        }
+
+        private void tsmiLinkToFigure_Click(object sender, EventArgs e)
+        {
+            LinkBegin();
+        }
+
+        /// <summary>
+        /// Начать "связывание" фигур
+        /// </summary>
+        public void LinkBegin()
+        {
+            Builded = null;
+            Mode = EditorMode.Link;
+            Invalidate();
+            SelectFigures.Cursor = Cursors.UpArrow;
+        }
+
+        private void tsmiUnlinkFromFigure_Click(object sender, EventArgs e)
+        {
+            UnlinkFugure();
+        }
+
+        /// <summary>
+        /// Разрыв связи между фигурами
+        /// </summary>
+        public void UnlinkFugure()
+        {
+            // убираем связь с прежним "родителем"
+            Selected?.Parent?.Childs.Remove(Selected);
+            // убираем ссылку на "родителя"
+            if (Selected != null) Selected.Parent = null;
         }
     }
 }

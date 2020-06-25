@@ -11,7 +11,16 @@ namespace Graphics
 
         public string Name { get; set; }
 
+        /// <summary>
+        /// Список привязанных, "дочерних" фигур
+        /// </summary>
         public List<Markers> Childs = new List<Markers>();
+
+        /// <summary>
+        /// Объект привязки, к которому относится эта фигура
+        /// </summary>
+        public Markers Parent { get; set; }
+
 
         public override string ToString()
         {

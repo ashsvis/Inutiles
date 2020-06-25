@@ -6,6 +6,7 @@
     public enum EditorMode
     {
         None,
-        Build
+        Build,
+        Link
     }
 }
