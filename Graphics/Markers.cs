@@ -9,6 +9,15 @@ namespace Graphics
     {
         protected List<Marker> markers = new List<Marker>();
 
+        public string Name { get; set; }
+
+        public List<Markers> Childs = new List<Markers>();
+
+        public override string ToString()
+        {
+            return Name;
+        }
+
         /// <summary>
         /// Добавляем ранее созданный маркер
         /// </summary>
@@ -130,6 +139,8 @@ namespace Graphics
             currentMarker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
             mouseDowned = true;
             downLocation = location;
+            // передача события нажатия указателя всем "дочерним" фигурам
+            Childs.ForEach(x => x.MouseDown(location, modifierKeys));
         }
 
         /// <summary>
@@ -139,11 +150,14 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public virtual void MouseMove(Point location, Keys modifierKeys)
         {
+            // вычисление смещения относительно точки первоначального нажатия
             offsetLocation = new Size(location.X - downLocation.X, location.Y - downLocation.Y);
+            // передача события перемещения нажатого указателя всем "дочерним" фигурам
+            if (mouseDowned && currentMarker == null && Childs.Count > 0)
+                Childs.ForEach(x => x.MouseMove(location, modifierKeys));
+            // перемещение выбранного маркера
             if (mouseDowned && currentMarker != null)
-            {
                 currentMarker.Location = location;
-            }
         }
 
         /// <summary>

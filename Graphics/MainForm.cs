@@ -117,7 +117,14 @@ namespace Graphics
         /// </summary>
         private void AddFigure()
         {
+            var parent = figures.LastOrDefault();
+
             figures.Add(Builded);
+            Builded.Name = $"Fig{figures.Count}";
+
+            if (parent != null)
+                parent.Childs.Add(Builded);
+
             Selected = Builded;
             Mode = EditorMode.None;
             Cursor = Cursors.Default;
@@ -165,6 +172,7 @@ namespace Graphics
 
             // передаём информацию о нажатии кнопки указателя
             Selected?.MouseDown(e.Location, ModifierKeys);
+
             // обновление содержимого формы
             Invalidate();
         }
