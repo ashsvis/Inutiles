@@ -159,27 +159,36 @@ namespace Graphics
                 case EditorMode.Link:
                     if (e.Button == MouseButtons.Left)
                     {
+                        CancelBegin();
                         // ищем фигуру "родителя" под курсором
                         fig = figures.LastOrDefault(x => x.Contained(e.Location));
-                        // фигура "родителя" должна быть, она не должна быть "сама собой" и она не должна быть в дальних "потомках"
-                        if (fig != null && fig != Selected && !CycleExists(Selected, fig))
+                        // фигура "родителя" должна быть
+                        if (fig != null)
                         {
-                            // убираем связь с прежним "родителем"
-                            Selected.Parent?.Childs.Remove(Selected);
-                            // добавляем связь у "родителя"
-                            fig.Childs.Add(Selected);
-                            // указываем "родителя"
-                            Selected.Parent = fig;
-                            // теперь выбран "родитель"
-                            Selected = fig;
+                            // она не должна быть "сама собой" и она не должна быть в дальних "потомках"
+                            if (fig != Selected && !CycleExists(Selected, fig))
+                            {
+                                // убираем связь с прежним "родителем"
+                                Selected.Parent?.Childs.Remove(Selected);
+                                // добавляем связь у "родителя"
+                                fig.Childs.Add(Selected);
+                                // указываем "родителя"
+                                Selected.Parent = fig;
+                                // теперь выбран "родитель"
+                                Selected = fig;
+                            }
+                            else
+                                Cursor = Cursors.No;    // показываем, что привязку нельзя сделать                            
                         }
-                        CancelBegin();
                     }
                     break;
                 case EditorMode.Build:
                     if (e.Button == MouseButtons.Left)
                     {
+                        // добавлем следующий узел
                         Builded.Add(e.Location);
+                        // для прямоугольника нужно всего два узла,
+                        // поэтому после добавления второго узла фигуру добавляем и заканчиваем с построением
                         if (Builded is Rect && Builded.Count == 2)
                             AddFigure();
                     }
@@ -198,15 +207,24 @@ namespace Graphics
             Invalidate();
         }
 
+        /// <summary>
+        /// Проверка наличия цикла в цепочки связей фигур
+        /// </summary>
+        /// <param name="selected"></param>
+        /// <param name="fig"></param>
+        /// <returns></returns>
         private bool CycleExists(Markers selected, Markers fig)
         {
+            // если в первом круге есть ссылка на будущего "родителя", то сразу выходим
             if (selected.Childs.Contains(fig))
                 return true;
+            // иначе вызываем эту функцию для всей "потомков"
             foreach (var child in selected.Childs)
             {
                 if (CycleExists(child, fig))
                     return true;
             }
+            // цикла нет
             return false;
         }
 
