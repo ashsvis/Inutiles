@@ -77,6 +77,12 @@ namespace Graphics
                     return Cursors.SizeNWSE;
                 case MarkerKind.SizeAll:
                     return Cursors.SizeAll;
+                case MarkerKind.SizeW:
+                case MarkerKind.SizeE:
+                    return Cursors.SizeWE;
+                case MarkerKind.SizeN:
+                case MarkerKind.SizeS:
+                    return Cursors.SizeNS;
                 default:
                     return Cursors.Default;
             }
@@ -91,6 +97,10 @@ namespace Graphics
         SizeNE,
         SizeSW,
         SizeNW,
-        SizeSE
+        SizeSE,
+        SizeW,
+        SizeE,
+        SizeN,
+        SizeS
     }
 }
