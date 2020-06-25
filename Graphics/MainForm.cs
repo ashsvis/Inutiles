@@ -9,7 +9,7 @@ namespace Graphics
 {
     public partial class MainForm : Form
     {
-        SelectFiguresToolForm SelectFigures;
+        ToolFormSelectFigures SelectFigures;
 
         /// <summary>
         /// точка для хранения запомненной позиции курсора
@@ -35,29 +35,29 @@ namespace Graphics
         {
             InitializeComponent();
             DoubleBuffered = true;
-            SelectFigures = new SelectFiguresToolForm(this);
+            SelectFigures = new ToolFormSelectFigures(this);
             SelectFigures.Owner = this;
         }
 
         private void MainForm_Load(object sender, EventArgs e)
         {
             SelectFigures.Show();
-            LocationSelectFigures();
+            LocationToolSelectFigures();
         }
 
-        private void LocationSelectFigures()
+        private void LocationToolSelectFigures()
         {
             SelectFigures.Location = new Point(this.Location.X - SelectFigures.Size.Width + 8, this.Location.Y + 29);
         }
 
         private void MainForm_Resize(object sender, EventArgs e)
         {
-            LocationSelectFigures();
+            LocationToolSelectFigures();
         }
 
         private void MainForm_Move(object sender, EventArgs e)
         {
-            LocationSelectFigures();
+            LocationToolSelectFigures();
         }
 
         /// <summary>

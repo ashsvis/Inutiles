@@ -1,6 +1,6 @@
 ﻿namespace Graphics
 {
-    partial class SelectFiguresToolForm
+    partial class ToolFormSelectFigures
     {
         /// <summary>
         /// Required designer variable.

@@ -4,11 +4,11 @@ using System.Windows.Forms;
 
 namespace Graphics
 {
-    public partial class SelectFiguresToolForm : Form
+    public partial class ToolFormSelectFigures : Form
     {
         private MainForm mainForm;
 
-        public SelectFiguresToolForm(MainForm form)
+        public ToolFormSelectFigures(MainForm form)
         {
             InitializeComponent();
             mainForm = form;
