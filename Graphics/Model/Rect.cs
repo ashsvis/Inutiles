@@ -109,6 +109,16 @@ namespace Graphics
         }
 
         /// <summary>
+        /// Вычисление величины смещения указателя, перегруженное для прямоугольника
+        /// </summary>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        protected override SizeF CalcOffset(Point location)
+        {
+            return base.CalcOffset(location);
+        }
+
+        /// <summary>
         /// Обработка перемещения указателя
         /// </summary>
         /// <param name="location"></param>
@@ -123,8 +133,6 @@ namespace Graphics
                 if (OffsetLocation.IsEmpty) return;
                 // корректируем положение всех маркеров на величину смещения
                 markers.ForEach(x => x.Location = PointF.Add(x.Location, OffsetLocation));
-                // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
-                DownLocation = location;
                 return; 
             }
             if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим

@@ -86,8 +86,6 @@ namespace Graphics
             if (OffsetLocation.IsEmpty) return;
             // корректируем положение всех маркеров на величину смещения
             markers.ForEach(x => x.Location = PointF.Add(x.Location, OffsetLocation));
-            // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
-            DownLocation = location;
         }
     }
 }
