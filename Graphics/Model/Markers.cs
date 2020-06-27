@@ -136,7 +136,7 @@ namespace Graphics
         /// <summary>
         /// Смещение указателя после нажатия на кнопку
         /// </summary>
-        protected SizeF OffsetLocation = SizeF.Empty;
+        protected Size OffsetLocation = Size.Empty;
 
         /// <summary>
         /// Обработка нажатия кнопки для указателя
@@ -160,26 +160,13 @@ namespace Graphics
         public virtual void MouseMove(Point location, Keys modifierKeys)
         {
             // вычисление смещения относительно точки первоначального нажатия, используется в перегруженных методах потомков
-            OffsetLocation = CalcOffset(location);
+            OffsetLocation = new Size(location.X - DownLocation.X, location.Y - DownLocation.Y);
             // передача события перемещения нажатого указателя всем "дочерним" фигурам
             if (mouseDowned && currentMarker == null && Childs.Count > 0)
                 Childs.ForEach(x => x.MouseMove(location, modifierKeys));
             // перемещение выбранного маркера
             if (mouseDowned && currentMarker != null)
                 currentMarker.Location = location;
-        }
-
-        /// <summary>
-        /// Вычисление величины смещения указателя
-        /// </summary>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        protected virtual SizeF CalcOffset(Point location)
-        {
-            var downLocation = DownLocation;
-            // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
-            DownLocation = location;
-            return new SizeF(location.X - downLocation.X, location.Y - downLocation.Y);
         }
 
         /// <summary>
