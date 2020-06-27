@@ -161,6 +161,8 @@ namespace Graphics
         {
             // вычисление смещения относительно точки первоначального нажатия, используется в перегруженных методах потомков
             OffsetLocation = new Size(location.X - DownLocation.X, location.Y - DownLocation.Y);
+            // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
+            DownLocation = location;
             // передача события перемещения нажатого указателя всем "дочерним" фигурам
             if (mouseDowned && currentMarker == null && Childs.Count > 0)
                 Childs.ForEach(x => x.MouseMove(location, modifierKeys));
