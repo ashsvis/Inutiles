@@ -120,11 +120,11 @@ namespace Graphics
             // нет выделенного маркера, значит, тянут за фигуру
             if (currentMarker == null)
             {
-                if (offsetLocation.IsEmpty) return;
+                if (OffsetLocation.IsEmpty) return;
                 // корректируем положение всех маркеров на величину смещения
-                markers.ForEach(x => x.Location = PointF.Add(x.Location, offsetLocation));
+                markers.ForEach(x => x.Location = PointF.Add(x.Location, OffsetLocation));
                 // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
-                downLocation = location;
+                DownLocation = location;
                 return; 
             }
             if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим

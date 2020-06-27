@@ -131,12 +131,12 @@ namespace Graphics
         /// <summary>
         /// Положение указателя при нажатии на кнопку
         /// </summary>
-        protected Point downLocation = Point.Empty;
+        protected Point DownLocation = Point.Empty;
 
         /// <summary>
         /// Смещение указателя после нажатия на кнопку
         /// </summary>
-        protected Size offsetLocation = Size.Empty;
+        protected Size OffsetLocation = Size.Empty;
 
         /// <summary>
         /// Обработка нажатия кнопки для указателя
@@ -147,7 +147,7 @@ namespace Graphics
         {
             currentMarker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
             mouseDowned = true;
-            downLocation = location;
+            DownLocation = location;
             // передача события нажатия указателя всем "дочерним" фигурам
             Childs.ForEach(x => x.MouseDown(location, modifierKeys));
         }
@@ -159,8 +159,8 @@ namespace Graphics
         /// <param name="modifierKeys"></param>
         public virtual void MouseMove(Point location, Keys modifierKeys)
         {
-            // вычисление смещения относительно точки первоначального нажатия
-            offsetLocation = new Size(location.X - downLocation.X, location.Y - downLocation.Y);
+            // вычисление смещения относительно точки первоначального нажатия, используется в перегруженных методах потомков
+            OffsetLocation = new Size(location.X - DownLocation.X, location.Y - DownLocation.Y);
             // передача события перемещения нажатого указателя всем "дочерним" фигурам
             if (mouseDowned && currentMarker == null && Childs.Count > 0)
                 Childs.ForEach(x => x.MouseMove(location, modifierKeys));

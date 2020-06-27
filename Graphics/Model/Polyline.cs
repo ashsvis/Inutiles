@@ -83,11 +83,11 @@ namespace Graphics
             if (!mouseDowned) return;
             // нет выделенного маркера, значит, тянут за фигуру
             if (currentMarker != null) return;
-            if (offsetLocation.IsEmpty) return;
+            if (OffsetLocation.IsEmpty) return;
             // корректируем положение всех маркеров на величину смещения
-            markers.ForEach(x => x.Location = PointF.Add(x.Location, offsetLocation));
+            markers.ForEach(x => x.Location = PointF.Add(x.Location, OffsetLocation));
             // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
-            downLocation = location;
+            DownLocation = location;
         }
     }
 }
