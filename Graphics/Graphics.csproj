@@ -46,19 +46,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="EditorMode.cs" />
+    <Compile Include="Model\EditorMode.cs" />
     <Compile Include="MainForm.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="MainForm.Designer.cs">
       <DependentUpon>MainForm.cs</DependentUpon>
     </Compile>
-    <Compile Include="Marker.cs" />
-    <Compile Include="Markers.cs" />
-    <Compile Include="Polyline.cs" />
+    <Compile Include="Model\Marker.cs" />
+    <Compile Include="Model\Markers.cs" />
+    <Compile Include="Model\Polyline.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Rect.cs" />
+    <Compile Include="Model\Rect.cs" />
     <Compile Include="ToolFormSelectFigures.cs">
       <SubType>Form</SubType>
     </Compile>
