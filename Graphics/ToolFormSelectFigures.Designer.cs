@@ -30,15 +30,17 @@
         {
             this.SuspendLayout();
             // 
-            // SelectFiguresToolForm
+            // ToolFormSelectFigures
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(26, 285);
             this.ControlBox = false;
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "SelectFiguresToolForm";
+            this.Name = "ToolFormSelectFigures";
             this.Padding = new System.Windows.Forms.Padding(1);
+            this.ShowIcon = false;
+            this.ShowInTaskbar = false;
             this.StartPosition = System.Windows.Forms.FormStartPosition.Manual;
             this.Text = "Построить";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.SelectFiguresToolForm_FormClosing);

@@ -162,6 +162,22 @@ namespace Graphics
         }
 
         /// <summary>
+        /// Перегруженный метод для коррекции перемещения маркеров
+        /// </summary>
+        /// <param name="currentMarker"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        protected override PointF GetMarkerLocation(Marker currentMarker, PointF location)
+        {
+            var scaleHeight = location.Y / currentMarker.Prev.Y;
+            var scaleWidth = location.X / currentMarker.Prev.X;
+            float scale = Math.Min(scaleHeight, scaleWidth);
+            float dx = (location.X - currentMarker.Prev.X) * scale;
+            float dy = (location.Y - currentMarker.Prev.Y) * scale;
+            return PointF.Add(currentMarker.Prev, new SizeF(dx, dy));
+        }
+
+        /// <summary>
         /// Обработка отпускания кнопки указателя
         /// </summary>
         /// <param name="location"></param>

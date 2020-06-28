@@ -168,7 +168,18 @@ namespace Graphics
                 Childs.ForEach(x => x.MouseMove(location, modifierKeys));
             // перемещение выбранного маркера
             if (mouseDowned && currentMarker != null)
-                currentMarker.Location = location;
+                currentMarker.Location = GetMarkerLocation(currentMarker, location);
+        }
+
+        /// <summary>
+        /// Делаем возможность перегружать данный метод в потомках
+        /// </summary>
+        /// <param name="currentMarker"></param>
+        /// <param name="location"></param>
+        /// <returns></returns>
+        protected virtual PointF GetMarkerLocation(Marker currentMarker, PointF location)
+        {
+            return location;
         }
 
         /// <summary>
