@@ -142,7 +142,16 @@ namespace Graphics
                 return; 
             }
             if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим
+
             // пересчёт маркеров
+            //var rect = GetRectangle();
+            //var scaleHeight = rect.Height / DownRectangle.Height;
+            //var scaleWidth = rect.Width / DownRectangle.Width;
+            //float scale = Math.Min(scaleHeight, scaleWidth);
+            //Console.WriteLine($"scaleHeight: {scaleHeight}, scaleWidth: {scaleWidth}, scale: {scale}");
+
+            //currentMarker.Location = new PointF(currentMarker.Location.X * scale, currentMarker.Location.Y * scale);
+
             // первые два опорных маркера (0 и 1) обозначают левый верхний и правый нижний углы прямоугольника
             // и по ним строится структура прямоугольника. Два других маркера обозначают углы побочной диагонали
             // прямоугольника и при их перемещении необходимо корректировать положение опорных маркеров.
@@ -175,24 +184,6 @@ namespace Graphics
                     markers[0].Location = new PointF(markers[0].Location.X, currentMarker.Location.Y);
                     break;
             }
-        }
-
-        /// <summary>
-        /// Перегруженный метод для коррекции перемещения маркеров
-        /// </summary>
-        /// <param name="currentMarker"></param>
-        /// <param name="location"></param>
-        /// <returns></returns>
-        protected override PointF GetMarkerLocation(Marker currentMarker, PointF location)
-        {
-            var rect = GetRectangle();
-            var scaleHeight = rect.Height / DownRectangle.Height;
-            var scaleWidth = rect.Width / DownRectangle.Width;
-            Console.WriteLine($"scaleHeight: {scaleHeight}, scaleWidth: {scaleWidth}");
-            float scale = Math.Min(scaleHeight, scaleWidth);
-            float dx = (location.X - currentMarker.Prev.X) * scale;
-            float dy = (location.Y - currentMarker.Prev.Y) * scale;
-            return PointF.Add(currentMarker.Prev, new SizeF(dx, dy));
         }
 
         /// <summary>
