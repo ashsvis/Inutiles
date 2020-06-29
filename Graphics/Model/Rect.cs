@@ -109,6 +109,22 @@ namespace Graphics
         }
 
         /// <summary>
+        /// Положение прямоугольника при нажатии на кнопку
+        /// </summary>
+        protected RectangleF DownRectangle = RectangleF.Empty;
+
+        /// <summary>
+        /// Обработка нажатия кнопки для указателя
+        /// </summary>
+        /// <param name="location"></param>
+        /// <param name="modifierKeys"></param>
+        public override void MouseDown(Point location, Keys modifierKeys)
+        {
+            base.MouseDown(location, modifierKeys);
+            DownRectangle = GetRectangle();
+        }
+
+        /// <summary>
         /// Обработка перемещения указателя
         /// </summary>
         /// <param name="location"></param>
@@ -169,8 +185,10 @@ namespace Graphics
         /// <returns></returns>
         protected override PointF GetMarkerLocation(Marker currentMarker, PointF location)
         {
-            var scaleHeight = location.Y / currentMarker.Prev.Y;
-            var scaleWidth = location.X / currentMarker.Prev.X;
+            var rect = GetRectangle();
+            var scaleHeight = rect.Height / DownRectangle.Height;
+            var scaleWidth = rect.Width / DownRectangle.Width;
+            Console.WriteLine($"scaleHeight: {scaleHeight}, scaleWidth: {scaleWidth}");
             float scale = Math.Min(scaleHeight, scaleWidth);
             float dx = (location.X - currentMarker.Prev.X) * scale;
             float dy = (location.Y - currentMarker.Prev.Y) * scale;

@@ -143,7 +143,7 @@ namespace Graphics
         /// </summary>
         /// <param name="location"></param>
         /// <param name="modifierKeys"></param>
-        public void MouseDown(Point location, Keys modifierKeys)
+        public virtual void MouseDown(Point location, Keys modifierKeys)
         {
             currentMarker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
             mouseDowned = true;
