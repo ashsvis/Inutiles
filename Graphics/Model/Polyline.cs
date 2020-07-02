@@ -58,6 +58,7 @@ namespace Graphics
         public override void Add(Marker marker)
         {
             marker.Kind = MarkerKind.Node;
+            marker.Index = markers.Count;
             markers.Add(marker);
         }
 
@@ -70,6 +71,10 @@ namespace Graphics
             // если точек меньше трёх, то удаления не будет, так как линия уже не будет существовать
             if (markers.Count < 3) return;
             markers.Remove(marker);
+            // перенумерация маркеров
+            var n = 0;
+            foreach (var m in markers)
+                m.Index = n++;
         }
 
         /// <summary>
@@ -82,7 +87,12 @@ namespace Graphics
             base.MouseMove(location, modifierKeys);
             if (!mouseDowned) return;
             // нет выделенного маркера, значит, тянут за фигуру
-            if (currentMarker != null) return;
+            if (currentMarker != null)
+            {
+                if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим
+                markers[currentMarker.Index].Location = new PointF(currentMarker.Location.X, currentMarker.Location.Y);
+                return;
+            }
             if (OffsetLocation.IsEmpty) return;
             // корректируем положение всех маркеров на величину смещения
             markers.ForEach(x => x.Location = PointF.Add(x.Location, OffsetLocation));

@@ -157,6 +157,14 @@ namespace Graphics
             // прямоугольника и при их перемещении необходимо корректировать положение опорных маркеров.
             switch (currentMarker.Kind)
             {
+                // левый верхний угол 
+                case MarkerKind.SizeNW:
+                    markers[0].Location = new PointF(currentMarker.Location.X, currentMarker.Location.Y);
+                    break;
+                // правый нижний угол 
+                case MarkerKind.SizeSE:
+                    markers[1].Location = new PointF(currentMarker.Location.X, currentMarker.Location.Y);
+                    break;
                 // правый верхний угол 
                 case MarkerKind.SizeNE:
                     markers[0].Location = new PointF(markers[0].Location.X, currentMarker.Location.Y);

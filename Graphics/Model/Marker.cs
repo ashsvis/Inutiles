@@ -59,6 +59,8 @@ namespace Graphics
         /// </summary>
         public MarkerKind Kind { get; set; } = MarkerKind.Node;
 
+        public int Index { get; set; }
+
         /// <summary>
         /// Метод возвращает вид курсора для этого маркера
         /// </summary>

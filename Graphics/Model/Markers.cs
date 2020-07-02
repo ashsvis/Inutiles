@@ -146,6 +146,14 @@ namespace Graphics
         public virtual void MouseDown(Point location, Keys modifierKeys)
         {
             currentMarker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
+            if (currentMarker != null)
+                currentMarker = new Marker()
+                {
+                    Location = location,
+                    Kind = currentMarker.Kind,
+                    Prev = currentMarker.Location,
+                    Index = currentMarker.Index
+                };
             mouseDowned = true;
             DownLocation = location;
             // передача события нажатия указателя всем "дочерним" фигурам
@@ -162,7 +170,7 @@ namespace Graphics
             // вычисление смещения относительно точки первоначального нажатия, используется в перегруженных методах потомков
             OffsetLocation = new Size(location.X - DownLocation.X, location.Y - DownLocation.Y);
             // корректируем точку нажатия указателя (это важно для правильности вычисления offsetLocation)
-            DownLocation = location;
+            DownLocation = location; // работает только при перетаскивании за "тело" фигуры
             // передача события перемещения нажатого указателя всем "дочерним" фигурам
             if (mouseDowned && currentMarker == null && Childs.Count > 0)
                 Childs.ForEach(x => x.MouseMove(location, modifierKeys));
