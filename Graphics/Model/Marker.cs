@@ -19,24 +19,8 @@ namespace Graphics
             get => location;
             internal set
             {
-                Prev = location;
                 location = value;
             }
-        }
-
-        /// <summary>
-        /// Предыдущая позиция маркера (его центральная точка)
-        /// </summary>
-        public PointF Prev { get; internal set; }
-
-        /// <summary>
-        /// Маркер двигался
-        /// </summary>
-        /// <returns></returns>
-        internal bool IsMoved()
-        {
-            return Math.Abs(Prev.X - location.X) >= 0.0001f ||
-                Math.Abs(Prev.Y - location.Y) >= 0.0001f;
         }
 
         /// <summary>

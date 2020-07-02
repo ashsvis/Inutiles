@@ -42,7 +42,7 @@ namespace Graphics
         /// <param name="point"></param>
         public void Add(PointF point)
         {
-            Add(new Marker() { Location = point, Prev = point });
+            Add(new Marker() { Location = point });
         }
 
         /// <summary>
@@ -153,7 +153,6 @@ namespace Graphics
                 {
                     Location = location,
                     Kind = currentMarker.Kind,
-                    Prev = currentMarker.Location,
                     Index = currentMarker.Index
                 };
             }

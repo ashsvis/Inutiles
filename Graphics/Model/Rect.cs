@@ -141,7 +141,6 @@ namespace Graphics
                 markers.ForEach(x => x.Location = PointF.Add(x.Location, OffsetLocation));
                 return; 
             }
-            if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим
 
             // пересчёт маркеров
             var rect = GetRectangle();
@@ -206,24 +205,24 @@ namespace Graphics
             var rect = GetRectangle();
             markers.Clear();
             // угловые маркеры главной диагонали
-            markers.Add(new Marker { Location = rect.Location, Prev = rect.Location, Kind = MarkerKind.SizeNW });
+            markers.Add(new Marker { Location = rect.Location, Kind = MarkerKind.SizeNW });
             var ptSE = new PointF(rect.Location.X + rect.Width, rect.Location.Y + rect.Height);
-            markers.Add(new Marker { Location = ptSE, Prev = ptSE, Kind = MarkerKind.SizeSE });
+            markers.Add(new Marker { Location = ptSE, Kind = MarkerKind.SizeSE });
             // угловые маркеры побочной диагонали
             var ptNE = new PointF(rect.Location.X + rect.Width, rect.Location.Y);
-            markers.Add(new Marker { Location = ptNE, Prev = ptNE, Kind = MarkerKind.SizeNE });
+            markers.Add(new Marker { Location = ptNE,Kind = MarkerKind.SizeNE });
             var ptSW = new PointF(rect.Location.X, rect.Location.Y + rect.Height);
-            markers.Add(new Marker { Location = ptSW, Prev = ptSW, Kind = MarkerKind.SizeSW });
+            markers.Add(new Marker { Location = ptSW, Kind = MarkerKind.SizeSW });
             // маркеры ширины
             var ptW = new PointF(rect.Location.X, rect.Location.Y + rect.Height / 2);
-            markers.Add(new Marker { Location = ptW, Prev = ptW, Kind = MarkerKind.SizeW });
+            markers.Add(new Marker { Location = ptW, Kind = MarkerKind.SizeW });
             var ptE = new PointF(rect.Location.X + rect.Width, rect.Location.Y + rect.Height / 2);
-            markers.Add(new Marker { Location = ptE, Prev = ptE, Kind = MarkerKind.SizeE });
+            markers.Add(new Marker { Location = ptE, Kind = MarkerKind.SizeE });
             // маркеры высоты
             var ptN = new PointF(rect.Location.X + rect.Width / 2, rect.Location.Y);
-            markers.Add(new Marker { Location = ptN, Prev = ptN, Kind = MarkerKind.SizeN });
+            markers.Add(new Marker { Location = ptN, Kind = MarkerKind.SizeN });
             var ptS = new PointF(rect.Location.X + rect.Width / 2, rect.Location.Y + rect.Height);
-            markers.Add(new Marker { Location = ptS, Prev = ptS, Kind = MarkerKind.SizeS });
+            markers.Add(new Marker { Location = ptS, Kind = MarkerKind.SizeS });
         }
     }
 }
