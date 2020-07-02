@@ -146,14 +146,16 @@ namespace Graphics
             var rect = GetRectangle();
             var scaleHeight = rect.Height / DownRectangle.Height;
             var scaleWidth = rect.Width / DownRectangle.Width;
-            //float scale = Math.Max(scaleHeight, scaleWidth);
+            float scale = Math.Min(scaleHeight, scaleWidth);
             //Console.WriteLine($"scaleHeight: {scaleHeight}, scaleWidth: {scaleWidth}, scale: {scale}");
 
             //currentMarker.Location = new PointF(currentMarker.Location.X * scale, currentMarker.Location.Y * scale);
 
-            // первые два опорных маркера (0 и 1) обозначают левый верхний и правый нижний углы прямоугольника
-            // и по ним строится структура прямоугольника. Два других маркера обозначают углы побочной диагонали
+            // Первые два опорных маркера (0 и 1) обозначают левый верхний и правый нижний углы прямоугольника
+            // и по ним строится структура прямоугольника.
+            // Два следующих маркера (2 и 3) обозначают углы побочной диагонали
             // прямоугольника и при их перемещении необходимо корректировать положение опорных маркеров.
+            // Далее идут маркеры для изменения размеров сторон: (4 и 5) для ширины, (6 и 7) для высоты фигуры
             switch (currentMarker.Kind)
             {
                 // левый верхний угол 
