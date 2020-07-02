@@ -144,10 +144,10 @@ namespace Graphics
             if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим
 
             // пересчёт маркеров
-            //var rect = GetRectangle();
-            //var scaleHeight = rect.Height / DownRectangle.Height;
-            //var scaleWidth = rect.Width / DownRectangle.Width;
-            //float scale = Math.Min(scaleHeight, scaleWidth);
+            var rect = GetRectangle();
+            var scaleHeight = rect.Height / DownRectangle.Height;
+            var scaleWidth = rect.Width / DownRectangle.Width;
+            //float scale = Math.Max(scaleHeight, scaleWidth);
             //Console.WriteLine($"scaleHeight: {scaleHeight}, scaleWidth: {scaleWidth}, scale: {scale}");
 
             //currentMarker.Location = new PointF(currentMarker.Location.X * scale, currentMarker.Location.Y * scale);

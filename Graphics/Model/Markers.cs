@@ -147,6 +147,8 @@ namespace Graphics
         {
             currentMarker = markers.LastOrDefault(x => x.Bounds.Contains(location.X, location.Y));
             if (currentMarker != null)
+            {
+                // заводим новый объект для перемещаемого маркера.
                 currentMarker = new Marker()
                 {
                     Location = location,
@@ -154,6 +156,7 @@ namespace Graphics
                     Prev = currentMarker.Location,
                     Index = currentMarker.Index
                 };
+            }
             mouseDowned = true;
             DownLocation = location;
             // передача события нажатия указателя всем "дочерним" фигурам

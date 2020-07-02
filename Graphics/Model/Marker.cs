@@ -59,6 +59,9 @@ namespace Graphics
         /// </summary>
         public MarkerKind Kind { get; set; } = MarkerKind.Node;
 
+        /// <summary>
+        /// Порядковый номер индекса в массиве индексов
+        /// </summary>
         public int Index { get; set; }
 
         /// <summary>

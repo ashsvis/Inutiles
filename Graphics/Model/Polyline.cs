@@ -89,7 +89,9 @@ namespace Graphics
             // нет выделенного маркера, значит, тянут за фигуру
             if (currentMarker != null)
             {
-                if (!currentMarker.IsMoved()) return;   // выделенный маркер не двигался, выходим
+                // выделенный маркер не двигался, выходим
+                if (!currentMarker.IsMoved()) return;
+                // передаём положение перемещаемого маркера маркеру с исходномым номером
                 markers[currentMarker.Index].Location = new PointF(currentMarker.Location.X, currentMarker.Location.Y);
                 return;
             }
